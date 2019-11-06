@@ -18,7 +18,7 @@ public class DiningTable {
     @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
-    private String idTable;
+    private String idDiningTable;
     private Integer capacity;
     private Boolean status;
 }

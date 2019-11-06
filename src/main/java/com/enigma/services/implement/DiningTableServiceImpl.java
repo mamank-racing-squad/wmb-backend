@@ -45,7 +45,7 @@ public class DiningTableServiceImpl implements DiningTableService {
 
     @Override
     public void deleteDiningTableById(String id) {
-        getDiningTable(id);
+        getDiningTableById(id);
         diningTableRepository.deleteById(id);
     }
 }

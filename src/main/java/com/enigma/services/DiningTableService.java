@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface DiningTableService {
     DiningTable saveDiningTable(DiningTable diningTable);
-    DiningTable getDiningTable(String id);
+    DiningTable getDiningTableById(String id);
     List<DiningTable> getAllDiningTable();
     Page<DiningTable> getAllDiningTableWithPagination(Pageable pageable);
     DiningTable updateDiningTable(DiningTable diningTable);

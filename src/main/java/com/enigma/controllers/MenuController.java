@@ -35,17 +35,17 @@ public class MenuController {
         return menuService.getMenuById(id);
     }
 
-    @GetMapping("/menuList")
+    @GetMapping("/list-menu")
     public List<Menu> getAllMenu(){
         return menuService.getAllMenu();
     }
 
-    @DeleteMapping("delete/menu/{id}")
+    @DeleteMapping("/menu/{id}")
     public void deleteMenu(@PathVariable String id){
         menuService.deleteMenuById(id);
     }
 
-    @PutMapping("/update/menu")
+    @PutMapping("/menu")
     public Menu updateMenu(@RequestBody Menu menu){
         return menuService.updateMenu(menu);
     }

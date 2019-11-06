@@ -21,6 +21,9 @@ public class MenuCategoryServiceImpl implements MenuCategoryService {
 
     @Override
     public MenuCategory createMenuCategory(MenuCategory menuCategory) {
+        if(menuCategory.getCategoryName().equals("")){
+            throw new Exception();
+        }
         return menuCategoryRepository.save(menuCategory);
     }
 

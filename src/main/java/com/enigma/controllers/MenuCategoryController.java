@@ -19,11 +19,11 @@ public class MenuCategoryController {
         return menuCategoryService.getAllMenuCategory();
     }
 
-    @PostMapping("/create/menu-category")
+    @PostMapping("/menu-category")
     public MenuCategory createMenuCategory(@RequestBody MenuCategory menuCategory){
         return menuCategoryService.createMenuCategory(menuCategory);
     }
-    @DeleteMapping("/delete/menu-category/{id}")
+    @DeleteMapping("/menu-category/{id}")
     public void deleteMenuCategoryById(@PathVariable String id){
         menuCategoryService.deleteMenuCategoryById(id);
     }

@@ -20,7 +20,7 @@ public class MenuCategory {
     private String idMenuCategory;
     private String categoryName;
 
-    @OneToMany(mappedBy = "menuCategory")
+    @OneToMany(mappedBy = "menuCategory", cascade = CascadeType.ALL)
     List<Menu> menuList = new ArrayList<>();
 
 }

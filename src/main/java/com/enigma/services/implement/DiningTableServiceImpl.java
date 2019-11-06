@@ -1,6 +1,7 @@
 package com.enigma.services.implement;
 
 import com.enigma.entities.DiningTable;
+import com.enigma.exceptions.ResultNotFoundException;
 import com.enigma.repositories.DiningTableRepository;
 import com.enigma.services.DiningTableService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ public class DiningTableServiceImpl implements DiningTableService {
 
     @Override
     public DiningTable getDiningTable(String id) {
+        if (!(diningTableRepository.findById(id).isPresent())) throw new ResultNotFoundException();
         return diningTableRepository.findById(id).get();
     }
 

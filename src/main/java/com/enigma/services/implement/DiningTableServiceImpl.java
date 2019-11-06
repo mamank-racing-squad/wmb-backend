@@ -23,7 +23,7 @@ public class DiningTableServiceImpl implements DiningTableService {
     }
 
     @Override
-    public DiningTable getDiningTable(String id) {
+    public DiningTable getDiningTableById(String id) {
         if (!(diningTableRepository.findById(id).isPresent())) throw new ResultNotFoundException();
         return diningTableRepository.findById(id).get();
     }
@@ -45,7 +45,7 @@ public class DiningTableServiceImpl implements DiningTableService {
 
     @Override
     public void deleteDiningTableById(String id) {
-        getDiningTable(id);
+        getDiningTableById(id);
         diningTableRepository.deleteById(id);
     }
 }

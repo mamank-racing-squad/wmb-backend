@@ -22,8 +22,8 @@ public class DiningTableController {
     }
 
     @GetMapping("/dining-table/{id}")
-    public DiningTable getDiningTable(@PathVariable String id) {
-        return diningTableService.getDiningTable(id);
+    public DiningTable getDiningTableById(@PathVariable String id) {
+        return diningTableService.getDiningTableById(id);
     }
 
     @GetMapping("/dining-tables")

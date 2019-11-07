@@ -1,6 +1,7 @@
 package com.enigma.controllers;
 
 import com.enigma.entities.Order;
+import com.enigma.entities.Payment;
 import com.enigma.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,7 @@ public class OrderController {
     }
 
     @PostMapping("/payment/{id}")
-    public Order payment(@PathVariable String id, @RequestBody BigDecimal payment){
+    public Order payment(@PathVariable String id, @RequestBody Payment payment){
         Order order = orderService.getOrderById(id);
         return orderService.payment(order, payment);
     }

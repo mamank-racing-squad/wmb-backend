@@ -53,11 +53,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order payment(Order order, BigDecimal payment) {
+    public Order payment(Order order, Payment payment) {
         Order willBePaidOrder = getOrderById(order.getIdOrder());
         DiningTable diningTable = order.getDiningTable();
         diningTable.costumerOut();
-        willBePaidOrder.setPayment(payment);
+        willBePaidOrder.setPayment(payment.getPay());
         willBePaidOrder.setChange(willBePaidOrder.getPayment().subtract(willBePaidOrder.getTotalPrice()));
         return orderRepository.save(willBePaidOrder);
     }

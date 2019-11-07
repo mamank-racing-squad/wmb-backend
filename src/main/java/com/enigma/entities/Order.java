@@ -8,6 +8,9 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "trx_order")
@@ -19,13 +22,19 @@ public class Order {
     private String idOrder;
 
     private String costumerName;
-    private String totalCostumer;
+    private Integer totalCostumer;
     private BigDecimal totalPrice;
-    private Timestamp createAt;
+    private LocalDateTime createAt;
+
+    private BigDecimal payment;
+    private BigDecimal change;
 
     @ManyToOne
     @JoinColumn(name = "id_dining_table")
     private DiningTable diningTable;
+
+    @OneToMany(mappedBy = "idOrder", cascade = CascadeType.ALL)
+    private List<OrderDetail> orderDetails = new ArrayList<>();
 
     @Transient
     private String idDiningTable;

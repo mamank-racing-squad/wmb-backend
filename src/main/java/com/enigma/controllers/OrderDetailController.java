@@ -20,8 +20,8 @@ public class OrderDetailController {
     }
 
     @GetMapping("/order-detail/{id}")
-    public OrderDetail getOrderDetailById(@PathVariable String id){
-        return orderDetailService.getOrderDetailById(id);
+    public OrderDetail getOrderDetailById(@PathVariable String idOrder){
+        return orderDetailService.getOrderDetailById(idOrder);
     }
 
     @GetMapping("/list-order-detail")

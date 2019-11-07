@@ -1,6 +1,7 @@
 package com.enigma.services.implement;
 
 import com.enigma.entities.DiningTable;
+import com.enigma.exceptions.NotAccordingToCapacityException;
 import com.enigma.exceptions.ResultNotFoundException;
 import com.enigma.repositories.DiningTableRepository;
 import com.enigma.services.DiningTableService;
@@ -47,5 +48,14 @@ public class DiningTableServiceImpl implements DiningTableService {
     public void deleteDiningTableById(String id) {
         getDiningTableById(id);
         diningTableRepository.deleteById(id);
+    }
+
+    @Override
+    public void costumerDining(Integer totalCostumer, DiningTable diningTable) {
+        if(totalCostumer<=diningTable.getCapacity()){
+            diningTable.costumerEntry(totalCostumer);
+        }else {
+            throw new NotAccordingToCapacityException();
+        }
     }
 }

@@ -28,6 +28,14 @@ public class DiningTable {
         this.status = status;
     }
 
+    public void costumerEntry(Integer totalCostumer){
+        this.status = false;
+    }
+
+    public void costumerOut(){
+        this.status = true;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

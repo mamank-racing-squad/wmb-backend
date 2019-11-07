@@ -1,6 +1,7 @@
 package com.enigma.services.implement;
 
 import com.enigma.entities.MenuCategory;
+import com.enigma.exceptions.InputCanNotBeEmptyException;
 import com.enigma.repositories.MenuCategoryRepository;
 import com.enigma.services.MenuCategoryService;
 import org.junit.Before;
@@ -57,6 +58,14 @@ public class MenuCategoryServiceImplTest {
         menuCategory = menuCategoryService.createMenuCategory(menuCategory);
         assertEquals(menuCategoryRepository.findById(menuCategory.getIdMenuCategory()).get(), menuCategory);
     }
+
+//    @Test
+//    public void createMenuCategory_should_return_400_when_dataInputEmpty() {
+//        MenuCategory menuCategory = new MenuCategory("");
+//        menuCategoryService.createMenuCategory(menuCategory).;
+//        assertTrue(menuCategoryRepository.findAll().isEmpty());
+//    }
+
 
     @Test
     public void deleteMenuCategoryById() {

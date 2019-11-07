@@ -23,19 +23,19 @@ public class DiningTable {
     @Column(unique = true)
     private String numberTable;
     private Integer capacity;
-    private Boolean Availability;
+    private Boolean availability;
 
-    public DiningTable(Integer capacity, Boolean Availability) {
+    public DiningTable(Integer capacity, Boolean availability) {
         this.capacity = capacity;
-        this.Availability = Availability;
+        this.availability = availability;
     }
 
     public void costumerEntry(){
-        this.Availability = false;
+        this.availability = false;
     }
 
     public void costumerOut(){
-        this.Availability = true;
+        this.availability = true;
     }
 
     @Override
@@ -45,6 +45,6 @@ public class DiningTable {
         DiningTable that = (DiningTable) o;
         return Objects.equals(idDiningTable, that.idDiningTable) &&
                 Objects.equals(capacity, that.capacity) &&
-                Objects.equals(Availability, that.Availability);
+                Objects.equals(availability, that.availability);
     }
 }

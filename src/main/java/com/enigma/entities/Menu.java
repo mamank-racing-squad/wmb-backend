@@ -21,7 +21,7 @@ public class Menu {
 
     private String menuName;
     private BigDecimal price;
-    private Boolean Availability;
+    private Boolean availability;
 
     @ManyToOne
     @JoinColumn(name = "id_menu_category")
@@ -30,10 +30,10 @@ public class Menu {
     @Transient
     private String idMenuCategoryTransient;
 
-    public Menu(String menuName, BigDecimal price, Boolean Availability) {
+    public Menu(String menuName, BigDecimal price, Boolean availability) {
         this.menuName = menuName;
         this.price = price;
-        this.Availability = Availability;
+        this.availability = availability;
     }
 
     @Override
@@ -44,11 +44,11 @@ public class Menu {
         return Objects.equals(idMenu, menu.idMenu) &&
                 Objects.equals(menuName, menu.menuName) &&
                 price.compareTo(menu.getPrice())==0 &&
-                Objects.equals(Availability, menu.Availability);
+                Objects.equals(availability, menu.availability);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idMenu, menuName, price, Availability);
+        return Objects.hash(idMenu, menuName, price, availability);
     }
 }

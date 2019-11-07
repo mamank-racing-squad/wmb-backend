@@ -21,6 +21,7 @@ public class DiningTableServiceImpl implements DiningTableService {
 
     @Override
     public DiningTable saveDiningTable(DiningTable diningTable) {
+        diningTable.setAvailability(true);
         return diningTableRepository.save(diningTable);
     }
 

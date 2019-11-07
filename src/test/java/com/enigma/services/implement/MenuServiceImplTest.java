@@ -80,7 +80,7 @@ public class MenuServiceImplTest {
         Menu menu = new Menu("Ikan Bakar", new BigDecimal(50000), true);
         menu = menuService.createMenu(menu);
         Menu edited = menu;
-        edited.setNameMenu("Ayam Bakar");
+        edited.setMenuName("Ayam Bakar");
         menuService.updateMenu(edited);
         assertEquals(edited, menuRepository.findById(menu.getIdMenu()).get());
 

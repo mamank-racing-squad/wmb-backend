@@ -13,4 +13,5 @@ public interface DiningTableService {
     Page<DiningTable> getAllDiningTableWithPagination(Pageable pageable);
     DiningTable updateDiningTable(DiningTable diningTable);
     void deleteDiningTableById(String id);
+    void costumerDining(Integer totalCostumer, DiningTable diningTable);
 }

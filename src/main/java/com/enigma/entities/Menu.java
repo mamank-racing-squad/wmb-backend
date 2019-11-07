@@ -20,20 +20,19 @@ public class Menu {
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String idMenu;
 
-    private String nameMenu;
+    private String menuName;
     private BigDecimal price;
     private Boolean status;
 
     @ManyToOne
     @JoinColumn(name = "id_menu_category")
-    @JsonIgnore
     private MenuCategory menuCategory;
 
     @Transient
     private String idMenuCategoryTransient;
 
-    public Menu(String nameMenu, BigDecimal price, Boolean status) {
-        this.nameMenu = nameMenu;
+    public Menu(String menuName, BigDecimal price, Boolean status) {
+        this.menuName = menuName;
         this.price = price;
         this.status = status;
     }
@@ -44,13 +43,13 @@ public class Menu {
         if (o == null || getClass() != o.getClass()) return false;
         Menu menu = (Menu) o;
         return Objects.equals(idMenu, menu.idMenu) &&
-                Objects.equals(nameMenu, menu.nameMenu) &&
+                Objects.equals(menuName, menu.menuName) &&
                 price.compareTo(menu.getPrice())==0 &&
                 Objects.equals(status, menu.status);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idMenu, nameMenu, price, status);
+        return Objects.hash(idMenu, menuName, price, status);
     }
 }

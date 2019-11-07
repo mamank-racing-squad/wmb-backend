@@ -1,5 +1,6 @@
 package com.enigma.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,7 +13,9 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "mst_menu_category")
-@NoArgsConstructor @Getter @Setter
+@NoArgsConstructor
+@Getter
+@Setter
 public class MenuCategory {
 
     @Id
@@ -22,6 +25,7 @@ public class MenuCategory {
     private String categoryName;
 
     @OneToMany(mappedBy = "menuCategory", cascade = CascadeType.ALL)
+    @JsonIgnore
     List<Menu> menuList = new ArrayList<>();
 
     public MenuCategory(String categoryName) {

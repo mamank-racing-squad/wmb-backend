@@ -28,7 +28,7 @@ public class DiningTable {
         this.status = status;
     }
 
-    public void costumerEntry(Integer totalCostumer){
+    public void costumerEntry(){
         this.status = false;
     }
 

@@ -3,6 +3,7 @@ package com.enigma.services.implement;
 import com.enigma.entities.DiningTable;
 import com.enigma.exceptions.NotAccordingToCapacityException;
 import com.enigma.exceptions.ResultNotFoundException;
+import com.enigma.exceptions.TableIsNotEmptyException;
 import com.enigma.repositories.DiningTableRepository;
 import com.enigma.services.DiningTableService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +54,11 @@ public class DiningTableServiceImpl implements DiningTableService {
     @Override
     public void costumerDining(Integer totalCostumer, DiningTable diningTable) {
         if(totalCostumer<=diningTable.getCapacity()){
-            diningTable.costumerEntry(totalCostumer);
+            if(diningTable.getStatus()){
+                diningTable.costumerEntry();
+            }else{
+                throw new TableIsNotEmptyException();
+            }
         }else {
             throw new NotAccordingToCapacityException();
         }

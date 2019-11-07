@@ -37,4 +37,9 @@ public class MenuCategoryServiceImpl implements MenuCategoryService {
     public MenuCategory updateMenuCategory(MenuCategory menuCategory) {
         return menuCategoryRepository.save(menuCategory);
     }
+
+    @Override
+    public MenuCategory getMenuById(String id) {
+        return menuCategoryRepository.findById(id).get();
+    }
 }

@@ -1,7 +1,9 @@
 package com.enigma.services.implement;
 
 import com.enigma.entities.Menu;
+import com.enigma.entities.MenuCategory;
 import com.enigma.repositories.MenuRepository;
+import com.enigma.services.MenuCategoryService;
 import com.enigma.services.MenuService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,8 @@ public class MenuServiceImpl implements MenuService {
 
     @Autowired
     MenuRepository menuRepository;
+    @Autowired
+    MenuCategoryService menuCategoryService;
 
     @Override
     public Menu getMenuById(String id) {
@@ -31,6 +35,8 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public Menu createMenu(Menu menu) {
+        MenuCategory menuCategory = menuCategoryService.getMenuById(menu.getIdMenuCategoryTransient());
+        menu.setMenuCategory(menuCategory);
         return menuRepository.save(menu);
     }
 

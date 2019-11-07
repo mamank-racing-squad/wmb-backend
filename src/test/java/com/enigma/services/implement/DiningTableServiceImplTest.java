@@ -86,7 +86,7 @@ public class DiningTableServiceImplTest {
         DiningTable sampleDiningTable = diningTableService.saveDiningTable(sample1);
 
         sampleDiningTable.setCapacity(4);
-        sampleDiningTable.setStatus(false);
+        sampleDiningTable.setAvailability(false);
 
         DiningTable expected = diningTableService.updateDiningTable(sampleDiningTable);
         DiningTable result = diningTableRepository.findById(sampleDiningTable.getIdDiningTable()).get();

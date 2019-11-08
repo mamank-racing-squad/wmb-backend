@@ -16,7 +16,7 @@ public class DiningTableController {
     @Autowired
     DiningTableService diningTableService;
 
-    @PostMapping("/dining-table")
+    @PutMapping("/dining-table")
     public DiningTable saveDiningTable(@RequestBody DiningTable diningTable){
         return diningTableService.saveDiningTable(diningTable);
     }
@@ -36,7 +36,7 @@ public class DiningTableController {
         return diningTableService.getAllDiningTableWithPagination(PageRequest.of(page, size));
     }
 
-    @PutMapping("/dining-table")
+    @PostMapping("/dining-table")
     public DiningTable updateDiningTable(@RequestBody  DiningTable diningTable) {
         return diningTableService.updateDiningTable(diningTable);
     }

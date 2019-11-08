@@ -4,11 +4,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.constraints.UniqueElements;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
@@ -20,20 +18,24 @@ public class DiningTable {
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String idDiningTable;
-    private Integer capacity;
-    private Boolean status;
 
-    public DiningTable(Integer capacity, Boolean status) {
+    @UniqueElements
+    @Column(unique = true)
+    private String numberTable;
+    private Integer capacity;
+    private Boolean availability;
+
+    public DiningTable(Integer capacity, Boolean availability) {
         this.capacity = capacity;
-        this.status = status;
+        this.availability = availability;
     }
 
     public void costumerEntry(){
-        this.status = false;
+        this.availability = false;
     }
 
     public void costumerOut(){
-        this.status = true;
+        this.availability = true;
     }
 
     @Override
@@ -43,6 +45,6 @@ public class DiningTable {
         DiningTable that = (DiningTable) o;
         return Objects.equals(idDiningTable, that.idDiningTable) &&
                 Objects.equals(capacity, that.capacity) &&
-                Objects.equals(status, that.status);
+                Objects.equals(availability, that.availability);
     }
 }

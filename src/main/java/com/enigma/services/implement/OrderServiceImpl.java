@@ -1,20 +1,17 @@
 package com.enigma.services.implement;
 
 import com.enigma.entities.*;
+import com.enigma.exceptions.InputCanNotBeEmptyException;
+import com.enigma.exceptions.PaymentUnsuccessfulException;
 import com.enigma.repositories.OrderRepository;
 import com.enigma.services.DiningTableService;
 import com.enigma.services.MenuService;
 import com.enigma.services.OrderService;
-import org.apache.tomcat.jni.Time;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -33,6 +30,14 @@ public class OrderServiceImpl implements OrderService {
         DiningTable diningTable = diningTableService.getDiningTableById(order.getIdDiningTable());
         order.setDiningTable(diningTable);
         diningTableService.costumerDining(order.getTotalCostumer(), diningTable);
+        BigDecimal totalPrice = getTotalPrice(order);
+        order.setTotalPrice(totalPrice);
+        LocalDateTime localDateTime = LocalDateTime.now();
+        order.setCreateAt(localDateTime);
+        return orderRepository.save(order);
+    }
+
+    private BigDecimal getTotalPrice(Order order) {
         BigDecimal totalPrice = new BigDecimal(0);
         for(OrderDetail orderDetail: order.getOrderDetails()){
             Menu menu = menuService.getMenuById(orderDetail.getIdMenuTransient());
@@ -41,10 +46,7 @@ public class OrderServiceImpl implements OrderService {
             orderDetail.setSubTotalPrice(menu.getPrice().multiply(new BigDecimal(orderDetail.getQuantity())));
             totalPrice = totalPrice.add(orderDetail.getSubTotalPrice());
         }
-        order.setTotalPrice(totalPrice);
-        LocalDateTime localDateTime = LocalDateTime.now();
-        order.setCreateAt(localDateTime);
-        return orderRepository.save(order);
+        return totalPrice;
     }
 
     @Override
@@ -58,6 +60,9 @@ public class OrderServiceImpl implements OrderService {
         DiningTable diningTable = order.getDiningTable();
         diningTable.costumerOut();
         willBePaidOrder.setPayment(payment.getPay());
+        if(willBePaidOrder.getPayment().compareTo(willBePaidOrder.getTotalPrice()) < 0){
+            throw new PaymentUnsuccessfulException();
+        }
         willBePaidOrder.setChange(willBePaidOrder.getPayment().subtract(willBePaidOrder.getTotalPrice()));
         return orderRepository.save(willBePaidOrder);
     }

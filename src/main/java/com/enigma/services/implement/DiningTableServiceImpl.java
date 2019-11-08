@@ -21,6 +21,7 @@ public class DiningTableServiceImpl implements DiningTableService {
 
     @Override
     public DiningTable saveDiningTable(DiningTable diningTable) {
+        diningTable.setAvailability(true);
         return diningTableRepository.save(diningTable);
     }
 
@@ -54,7 +55,7 @@ public class DiningTableServiceImpl implements DiningTableService {
     @Override
     public void costumerDining(Integer totalCostumer, DiningTable diningTable) {
         if(totalCostumer<=diningTable.getCapacity()){
-            if(diningTable.getStatus()){
+            if(diningTable.getAvailability()){
                 diningTable.costumerEntry();
             }else{
                 throw new TableIsNotEmptyException();

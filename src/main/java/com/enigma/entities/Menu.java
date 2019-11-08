@@ -1,6 +1,5 @@
 package com.enigma.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,7 +21,7 @@ public class Menu {
 
     private String menuName;
     private BigDecimal price;
-    private Boolean status;
+    private Boolean availability;
 
     @ManyToOne
     @JoinColumn(name = "id_menu_category")
@@ -31,10 +30,10 @@ public class Menu {
     @Transient
     private String idMenuCategoryTransient;
 
-    public Menu(String menuName, BigDecimal price, Boolean status) {
+    public Menu(String menuName, BigDecimal price, Boolean availability) {
         this.menuName = menuName;
         this.price = price;
-        this.status = status;
+        this.availability = availability;
     }
 
     @Override
@@ -45,11 +44,11 @@ public class Menu {
         return Objects.equals(idMenu, menu.idMenu) &&
                 Objects.equals(menuName, menu.menuName) &&
                 price.compareTo(menu.getPrice())==0 &&
-                Objects.equals(status, menu.status);
+                Objects.equals(availability, menu.availability);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idMenu, menuName, price, status);
+        return Objects.hash(idMenu, menuName, price, availability);
     }
 }

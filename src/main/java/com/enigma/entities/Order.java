@@ -38,4 +38,16 @@ public class Order {
 
     @Transient
     private String idDiningTable;
+
+    public Order(String costumerName, Integer totalCostumer, BigDecimal totalPrice, LocalDateTime createAt, BigDecimal payment, BigDecimal change, DiningTable diningTable, List<OrderDetail> orderDetails, String idDiningTable) {
+        this.costumerName = costumerName;
+        this.totalCostumer = totalCostumer;
+        this.totalPrice = totalPrice;
+        this.createAt = createAt;
+        this.payment = payment;
+        this.change = change;
+        this.diningTable = diningTable;
+        this.orderDetails = orderDetails;
+        this.idDiningTable = idDiningTable;
+    }
 }

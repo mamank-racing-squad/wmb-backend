@@ -16,12 +16,12 @@ public class OrderController {
     @Autowired
     OrderService orderService;
 
-    @PostMapping("/order")
+    @PutMapping("/order")
     public Order ordering(@RequestBody Order order){
         return orderService.ordering(order);
     }
 
-    @PostMapping("/payment/{id}")
+    @PutMapping("/payment/{id}")
     public Order payment(@PathVariable String id, @RequestBody Payment payment){
         Order order = orderService.getOrderById(id);
         return orderService.payment(order, payment);

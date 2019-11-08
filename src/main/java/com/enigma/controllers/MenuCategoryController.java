@@ -19,7 +19,7 @@ public class MenuCategoryController {
         return menuCategoryService.getAllMenuCategory();
     }
 
-    @PostMapping("/menu-category")
+    @PutMapping("/menu-category")
     public MenuCategory createMenuCategory(@RequestBody MenuCategory menuCategory){
         return menuCategoryService.createMenuCategory(menuCategory);
     }
@@ -28,7 +28,7 @@ public class MenuCategoryController {
         menuCategoryService.deleteMenuCategoryById(id);
     }
 
-    @PutMapping("update/menu-category")
+    @PostMapping("update/menu-category")
     public MenuCategory updateMenuCategory(@RequestBody MenuCategory menuCategory){
         return menuCategoryService.updateMenuCategory(menuCategory);
     }

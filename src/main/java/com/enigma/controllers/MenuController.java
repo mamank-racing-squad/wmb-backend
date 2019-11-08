@@ -20,12 +20,12 @@ public class MenuController {
     MenuService menuService;
 
 
-    @PostMapping("/menu")
+    @PutMapping("/menu")
     public Menu createMenu(@RequestBody Menu menu){
         return menuService.createMenu(menu);
     }
 
-    @PostMapping("/menu/upload")
+    @PutMapping("/menu/upload")
     public Menu createMenuWithImage(@RequestPart MultipartFile image, String menuInput) throws IOException {
         return menuService.createMenuWithImage(menuInput, image);
     }
@@ -45,7 +45,7 @@ public class MenuController {
         menuService.deleteMenuById(id);
     }
 
-    @PutMapping("/menu")
+    @PostMapping("/menu")
     public Menu updateMenu(@RequestBody Menu menu){
         return menuService.updateMenu(menu);
     }

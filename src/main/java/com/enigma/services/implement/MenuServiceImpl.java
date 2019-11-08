@@ -46,7 +46,7 @@ public class MenuServiceImpl implements MenuService {
 
         Menu menu = objectMapper.readValue(menuInput, Menu.class);
         menu = createMenu(menu);
-        File file = new File("C:/nginx-1.16.1/html/menu-img/"+menu.getIdMenu()+".jpg");
+        File file = new File("http://10.10.13.113/menu-images/"+menu.getIdMenu()+".jpg");
         file.createNewFile();
         try(FileOutputStream fileOutputStream = new FileOutputStream(file)){
             fileOutputStream.write(image.getBytes());

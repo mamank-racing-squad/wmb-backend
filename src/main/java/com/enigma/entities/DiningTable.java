@@ -21,7 +21,7 @@ public class DiningTable {
 
     @UniqueElements
     @Column(unique = true)
-    private String numberTable;
+    private String numberDiningTable;
     private Integer capacity;
     private Boolean availability;
 

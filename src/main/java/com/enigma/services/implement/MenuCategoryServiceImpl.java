@@ -39,7 +39,7 @@ public class MenuCategoryServiceImpl implements MenuCategoryService {
     }
 
     @Override
-    public MenuCategory getMenuById(String id) {
+    public MenuCategory getMenuCategoryById(String id) {
         return menuCategoryRepository.findById(id).get();
     }
 }

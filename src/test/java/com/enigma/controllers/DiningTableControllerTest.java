@@ -16,8 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.junit.Assert.*;
 import static org.junit.Assert.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -37,8 +36,8 @@ public class DiningTableControllerTest {
 
     private static Pageable pageable = PageRequest.of(0, 10);
 
-    private static DiningTable sample1 = new DiningTable(2, true);
-    private static DiningTable sample2 = new DiningTable(4, false);
+    private static DiningTable sample1 = new DiningTable("A01",2);
+    private static DiningTable sample2 = new DiningTable("A02", 4);
 
     // Happy Test save dining table :)
 
@@ -46,7 +45,7 @@ public class DiningTableControllerTest {
     public void saveDiningTable_should_return_OKStatus() throws Exception {
         DiningTable expected = sample1;
 
-        mockMvc.perform(post("/dining-table")
+        mockMvc.perform(put("/dining-table")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(expected)))
                 .andExpect(status().isOk());
@@ -54,7 +53,7 @@ public class DiningTableControllerTest {
 
     @Test
     public void saveDiningTable_shouldExistInDb() throws Exception {
-        String response = mockMvc.perform(post("/dining-table")
+        String response = mockMvc.perform(put("/dining-table")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(sample1))).andReturn().getResponse().getContentAsString();
 

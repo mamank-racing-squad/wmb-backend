@@ -34,11 +34,10 @@ public class DiningTableServiceImplTest {
 
     private static Pageable pageable = PageRequest.of(0, 10);
 
+    private static DiningTable sample1 = new DiningTable("A01", 2);
+    private static DiningTable sample2 = new DiningTable("A02", 4);
 
     // Happy Test save dining table :)
-
-    private static DiningTable sample1 = new DiningTable(2, true);
-    private static DiningTable sample2 = new DiningTable(4, false);
 
     @Test
     public void saveDiningTable() {

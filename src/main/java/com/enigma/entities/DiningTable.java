@@ -19,15 +19,14 @@ public class DiningTable {
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String idDiningTable;
 
-    @UniqueElements
     @Column(unique = true)
-    private String numberTable;
+    private String numberDiningTable;
     private Integer capacity;
     private Boolean availability;
 
-    public DiningTable(Integer capacity, Boolean availability) {
+    public DiningTable(String numberDiningTable, Integer capacity) {
+        this.numberDiningTable = numberDiningTable;
         this.capacity = capacity;
-        this.availability = availability;
     }
 
     public void costumerEntry(){
@@ -44,6 +43,7 @@ public class DiningTable {
         if (o == null || getClass() != o.getClass()) return false;
         DiningTable that = (DiningTable) o;
         return Objects.equals(idDiningTable, that.idDiningTable) &&
+                Objects.equals(numberDiningTable, that.numberDiningTable) &&
                 Objects.equals(capacity, that.capacity) &&
                 Objects.equals(availability, that.availability);
     }

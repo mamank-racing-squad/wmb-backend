@@ -36,4 +36,28 @@ public class OrderDetail {
     private String description;
     private BigDecimal subTotalPrice;
 
+    public OrderDetail(String idMenuTransient, Integer quantity, String description) {
+        this.idMenuTransient = idMenuTransient;
+        this.quantity = quantity;
+        this.description = description;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OrderDetail that = (OrderDetail) o;
+        return Objects.equals(idOrderDetail, that.idOrderDetail) &&
+                Objects.equals(idOrder, that.idOrder) &&
+                Objects.equals(idMenu, that.idMenu) &&
+                Objects.equals(idMenuTransient, that.idMenuTransient) &&
+                Objects.equals(quantity, that.quantity) &&
+                Objects.equals(description, that.description) &&
+                subTotalPrice.compareTo(that.getSubTotalPrice())==0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idOrderDetail, idOrder, idMenu, idMenuTransient, quantity, description, subTotalPrice);
+    }
 }

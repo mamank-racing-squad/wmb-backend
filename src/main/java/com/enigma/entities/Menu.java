@@ -30,10 +30,11 @@ public class Menu {
     @Transient
     private String idMenuCategoryTransient;
 
-    public Menu(String menuName, BigDecimal price, Boolean availability) {
+    public Menu(String menuName, BigDecimal price, Boolean availability, String idMenuCategoryTransient) {
         this.menuName = menuName;
         this.price = price;
         this.availability = availability;
+        this.idMenuCategoryTransient = idMenuCategoryTransient;
     }
 
     @Override

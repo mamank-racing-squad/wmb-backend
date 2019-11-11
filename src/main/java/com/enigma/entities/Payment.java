@@ -4,10 +4,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.Entity;
 import java.math.BigDecimal;
 
 @NoArgsConstructor @Setter @Getter
 public class Payment {
     private BigDecimal pay;
-    private BigDecimal change;
+
+    public Payment(BigDecimal pay) {
+        this.pay = pay;
+    }
 }

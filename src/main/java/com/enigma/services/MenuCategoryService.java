@@ -9,5 +9,5 @@ public interface MenuCategoryService {
     public MenuCategory createMenuCategory(MenuCategory menuCategory);
     public void deleteMenuCategoryById(String id);
     public MenuCategory updateMenuCategory(MenuCategory menuCategory);
-    public MenuCategory getMenuById(String id);
+    public MenuCategory getMenuCategoryById(String id);
 }

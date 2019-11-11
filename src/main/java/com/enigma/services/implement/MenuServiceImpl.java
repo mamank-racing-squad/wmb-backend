@@ -35,7 +35,7 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public Menu createMenu(Menu menu) {
-        MenuCategory menuCategory = menuCategoryService.getMenuById(menu.getIdMenuCategoryTransient());
+        MenuCategory menuCategory = menuCategoryService.getMenuCategoryById(menu.getIdMenuCategoryTransient());
         menu.setMenuCategory(menuCategory);
         return menuRepository.save(menu);
     }

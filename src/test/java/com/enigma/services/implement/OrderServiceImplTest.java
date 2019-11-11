@@ -13,10 +13,13 @@ import com.enigma.services.OrderService;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -26,7 +29,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
 class OrderServiceImplTest {
 
@@ -48,17 +51,12 @@ class OrderServiceImplTest {
     //sementara
     @Autowired
     OrderDetailRepository orderDetailRepository;
-    @Before
+
+    @BeforeEach
     public void cleanUp() {
         orderDetailRepository.deleteAll();
         orderRepository.deleteAll();
-
-    }
-
-    @After
-    public void cleanUpAgain() {
-        orderDetailRepository.deleteAll();
-        orderRepository.deleteAll();
+        System.out.println(orderRepository.findAll());
     }
 
     public List<OrderDetail> initiateOrderDetails() {
@@ -118,7 +116,6 @@ class OrderServiceImplTest {
 
     @Test
     void getListOfOrder_should_return_2_when_2_dataInput() {
-        orderRepository.deleteAll();
         DiningTable diningTable = new DiningTable("A03", 2);
         diningTable = diningTableService.saveDiningTable(diningTable);
         Order order1 = new Order("Dadang",2, localDateTime, new BigDecimal(0), new BigDecimal(0), initiateOrderDetails(), saveTable().getIdDiningTable());

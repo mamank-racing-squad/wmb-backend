@@ -48,8 +48,4 @@ public class Menu {
                 Objects.equals(availability, menu.availability);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(idMenu, menuName, price, availability);
-    }
 }

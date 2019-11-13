@@ -3,6 +3,7 @@ package com.enigma.services.implement;
 import com.enigma.entities.Menu;
 import com.enigma.entities.MenuCategory;
 import com.enigma.repositories.MenuRepository;
+import com.enigma.services.FileService;
 import com.enigma.services.MenuCategoryService;
 import com.enigma.services.MenuService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,6 +23,8 @@ public class MenuServiceImpl implements MenuService {
     MenuRepository menuRepository;
     @Autowired
     MenuCategoryService menuCategoryService;
+    @Autowired
+    FileService fileService;
 
     @Override
     public Menu getMenuById(String id) {
@@ -46,13 +49,7 @@ public class MenuServiceImpl implements MenuService {
 
         Menu menu = objectMapper.readValue(menuInput, Menu.class);
         menu = createMenu(menu);
-        File file = new File("E:/Software/nginx-1.16.1/html/menu-image/"+menu.getIdMenu()+".jpg");
-        file.createNewFile();
-        try(FileOutputStream fileOutputStream = new FileOutputStream(file)){
-            fileOutputStream.write(image.getBytes());
-        }catch (Exception ex){
-            ex.printStackTrace();
-        }
+        fileService.saveFile(image, menu.getIdMenu());
         return menu;
     }
 

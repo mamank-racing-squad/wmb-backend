@@ -42,6 +42,11 @@ public class OrderDetail {
         this.description = description;
     }
 
+    public String getIdMenuTransient() {
+        if (getIdMenu() != null) setIdMenuTransient(getIdMenu().getIdMenu());
+        return idMenuTransient;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

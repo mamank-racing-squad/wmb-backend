@@ -7,7 +7,6 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +47,11 @@ public class Order {
         this.change = change;
         this.orderDetails = orderDetails;
         this.idDiningTable = idDiningTable;
+    }
+
+    public String getIdDiningTable() {
+        if (this.getDiningTable() != null) setIdDiningTable(getDiningTable().getIdDiningTable());
+        return idDiningTable;
     }
 
     @Override

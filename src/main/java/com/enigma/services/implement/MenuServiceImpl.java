@@ -42,6 +42,7 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public Menu createMenu(Menu menu) {
+        validatingMenuNameIsExist(menu.getMenuName());
         validatingMenuNameEmpty(menu.getMenuName());
         validatingPriceEmpty(menu.getPrice());
         validatingAvailabilityEmpty(menu.getAvailability());
@@ -74,6 +75,10 @@ public class MenuServiceImpl implements MenuService {
         validatingAvailabilityEmpty(menu.getAvailability());
         validatingMenuCategoryEmpty(menu.getIdMenuCategoryTransient());
         return menuRepository.save(menu);
+    }
+
+    private void validatingMenuNameIsExist(String value) {
+        if (menuRepository.existsByMenuNameIsLike(value)) throw new BadRequestException("Menu name with name : " + value + " already exist");
     }
 
     private void validatingMenuNameEmpty(String value) {

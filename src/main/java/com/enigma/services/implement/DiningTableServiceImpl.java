@@ -1,6 +1,7 @@
 package com.enigma.services.implement;
 
 import com.enigma.entities.DiningTable;
+import com.enigma.exceptions.InputCanNotBeEmptyException;
 import com.enigma.exceptions.NotAccordingToCapacityException;
 import com.enigma.exceptions.ResultNotFoundException;
 import com.enigma.exceptions.TableIsNotEmptyException;
@@ -21,8 +22,15 @@ public class DiningTableServiceImpl implements DiningTableService {
 
     @Override
     public DiningTable saveDiningTable(DiningTable diningTable) {
+        validatingDiningTable(diningTable);
         diningTable.setAvailability(true);
         return diningTableRepository.save(diningTable);
+    }
+
+    private void validatingDiningTable(DiningTable diningTable) {
+        if (diningTable.getNumberDiningTable().isEmpty()) throw new InputCanNotBeEmptyException("Number dining table can't be empty");
+        if (diningTableRepository.existsByNumberDiningTable(diningTable.getNumberDiningTable())) throw new InputCanNotBeEmptyException("Number dining table with number : " + diningTable.getNumberDiningTable() + "already exists");
+        else if (diningTable.getCapacity() < 1) throw new InputCanNotBeEmptyException("Capacity can't be less then one");
     }
 
     @Override
@@ -43,7 +51,9 @@ public class DiningTableServiceImpl implements DiningTableService {
 
     @Override
     public DiningTable updateDiningTable(DiningTable diningTable) {
-        return saveDiningTable(diningTable);
+        getDiningTableById(diningTable.getIdDiningTable());
+        validatingDiningTable(diningTable);
+        return diningTableRepository.save(diningTable);
     }
 
     @Override

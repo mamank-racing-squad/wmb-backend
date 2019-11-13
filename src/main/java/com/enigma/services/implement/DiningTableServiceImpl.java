@@ -19,15 +19,11 @@ public class DiningTableServiceImpl implements DiningTableService {
 
     @Override
     public DiningTable saveDiningTable(DiningTable diningTable) {
-        validatingDiningTable(diningTable);
+        validatingNumberDiningTableEmpty(diningTable.getNumberDiningTable());
+        validatingNumberDiningTableIsExist(diningTable.getNumberDiningTable());
+        validatingCapacityIsLessThanOne(diningTable.getCapacity());
         diningTable.setAvailability(true);
         return diningTableRepository.save(diningTable);
-    }
-
-    private void validatingDiningTable(DiningTable diningTable) {
-        if (diningTable.getNumberDiningTable().isEmpty()) throw new BadRequestException("Number dining table can't be empty");
-        if (diningTableRepository.existsByNumberDiningTable(diningTable.getNumberDiningTable())) throw new BadRequestException("Number dining table with number : " + diningTable.getNumberDiningTable() + " already exists");
-        else if (diningTable.getCapacity() < 1) throw new BadRequestException("Capacity can't be less then one");
     }
 
     @Override
@@ -48,8 +44,9 @@ public class DiningTableServiceImpl implements DiningTableService {
 
     @Override
     public DiningTable updateDiningTable(DiningTable diningTable) {
+        validatingNumberDiningTableEmpty(diningTable.getNumberDiningTable());
+        validatingCapacityIsLessThanOne(diningTable.getCapacity());
         getDiningTableById(diningTable.getIdDiningTable());
-        validatingDiningTable(diningTable);
         return diningTableRepository.save(diningTable);
     }
 
@@ -70,5 +67,17 @@ public class DiningTableServiceImpl implements DiningTableService {
         }else {
             throw new ForbiddenException();
         }
+    }
+
+    private void validatingNumberDiningTableEmpty(String value) {
+        if (value.isEmpty()) throw new BadRequestException("Number dining table can't be empty");
+    }
+
+    private void validatingNumberDiningTableIsExist(String value) {
+        if (diningTableRepository.existsByNumberDiningTable(value)) throw new BadRequestException("Number dining table with number : " + value + " is already exists");
+    }
+
+    private void validatingCapacityIsLessThanOne(Integer value) {
+        if (value < 1) throw new BadRequestException("Capacity can't be less then one");
     }
 }

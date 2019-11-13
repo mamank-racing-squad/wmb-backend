@@ -27,24 +27,24 @@ public class OrderDetail {
 
     @ManyToOne
     @JoinColumn(name = "id_menu")
-    private Menu idMenu;
+    private Menu menu;
 
     @Transient
-    private String idMenuTransient;
+    private String idMenu;
 
     private Integer amount;
     private String description;
     private BigDecimal subTotalPrice;
 
-    public OrderDetail(String idMenuTransient, Integer amount, String description) {
-        this.idMenuTransient = idMenuTransient;
+    public OrderDetail(String idMenu, Integer amount, String description) {
+        this.idMenu = idMenu;
         this.amount = amount;
         this.description = description;
     }
 
-    public String getIdMenuTransient() {
-        if (getIdMenu() != null) setIdMenuTransient(getIdMenu().getIdMenu());
-        return idMenuTransient;
+    public String getIdMenu() {
+        if (getMenu() != null) setIdMenu(getMenu().getIdMenu());
+        return idMenu;
     }
 
     @Override
@@ -54,8 +54,8 @@ public class OrderDetail {
         OrderDetail that = (OrderDetail) o;
         return Objects.equals(idOrderDetail, that.idOrderDetail) &&
                 Objects.equals(idOrder, that.idOrder) &&
+                Objects.equals(menu, that.menu) &&
                 Objects.equals(idMenu, that.idMenu) &&
-                Objects.equals(idMenuTransient, that.idMenuTransient) &&
                 Objects.equals(amount, that.amount) &&
                 Objects.equals(description, that.description) &&
                 subTotalPrice.compareTo(that.getSubTotalPrice())==0;

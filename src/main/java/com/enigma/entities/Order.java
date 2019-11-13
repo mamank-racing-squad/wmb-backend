@@ -34,7 +34,7 @@ public class Order {
     @JoinColumn(name = "id_dining_table")
     private DiningTable diningTable;
 
-    @OneToMany(mappedBy = "idOrder", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "idOrder", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<OrderDetail> orderDetails = new ArrayList<>();
 
     @Transient
@@ -65,11 +65,6 @@ public class Order {
 //                &&
 //                Objects.equals(diningTable, order.diningTable) &&
 //                Objects.equals(orderDetails, order.orderDetails);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(idOrder, costumerName, totalCostumer, totalPrice, createAt, payment, change, diningTable, orderDetails, idDiningTable);
     }
 
 }

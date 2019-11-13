@@ -5,13 +5,20 @@ import com.enigma.entities.MenuCategory;
 import com.enigma.repositories.MenuRepository;
 import com.enigma.services.MenuCategoryService;
 import com.enigma.services.MenuService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.istack.Nullable;
+import org.h2.util.IOUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.internal.util.io.IOUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.*;
 import java.math.BigDecimal;
 
 import static org.junit.Assert.*;
@@ -72,11 +79,21 @@ public class MenuServiceImplTest {
         Menu expected = menuRepository.findById(menu.getIdMenu()).get();
         assertEquals(expected, menu);
     }
-//
-//    @Test
-//    public void createMenuWithImage_should_return_menu_and_image_ExistOnServer() {
-//
-//    }
+
+    @Test
+    public void createMenuWithImage_should_return_menu_and_image_ExistOnServer() throws IOException {
+        MenuCategory newMenuCategory = menuCategoryService.createMenuCategory(menuCategory);
+        File file = new File("E:\\mini-project-enigma-2019\\wmb-backend\\src\\test\\java\\com\\enigma\\services\\implement\\soto.jpg");
+        FileInputStream input = new FileInputStream(file);
+        MultipartFile image = new MockMultipartFile("image", input);
+        Menu menu = new Menu("Ikan Bakar", new BigDecimal(50000), true, newMenuCategory.getIdMenuCategory() );
+        ObjectMapper objectMapper = new ObjectMapper();
+        String menuInput = objectMapper.writeValueAsString(menu);
+        Menu menuWithImage = menuService.createMenuWithImage(menuInput, image);
+        FileReader fileReader = new FileReader("C:/nginx-1.16.1/html/menu-img/"+menuWithImage.getIdMenu()+".jpg");
+        assertEquals(menuWithImage, menuRepository.findById(menuWithImage.getIdMenu()).get());
+        assertFalse(fileReader.getEncoding().isEmpty());
+    }
 
     @Test
     public void deleteMenuById_should_return_1_when_1of2_data_deleted() {

@@ -32,13 +32,13 @@ public class OrderDetail {
     @Transient
     private String idMenuTransient;
 
-    private Integer quantity;
+    private Integer amount;
     private String description;
     private BigDecimal subTotalPrice;
 
-    public OrderDetail(String idMenuTransient, Integer quantity, String description) {
+    public OrderDetail(String idMenuTransient, Integer amount, String description) {
         this.idMenuTransient = idMenuTransient;
-        this.quantity = quantity;
+        this.amount = amount;
         this.description = description;
     }
 
@@ -51,13 +51,9 @@ public class OrderDetail {
                 Objects.equals(idOrder, that.idOrder) &&
                 Objects.equals(idMenu, that.idMenu) &&
                 Objects.equals(idMenuTransient, that.idMenuTransient) &&
-                Objects.equals(quantity, that.quantity) &&
+                Objects.equals(amount, that.amount) &&
                 Objects.equals(description, that.description) &&
                 subTotalPrice.compareTo(that.getSubTotalPrice())==0;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(idOrderDetail, idOrder, idMenu, idMenuTransient, quantity, description, subTotalPrice);
-    }
 }

@@ -13,10 +13,15 @@ import com.enigma.services.OrderService;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -26,7 +31,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
 class OrderServiceImplTest {
 
@@ -48,15 +53,9 @@ class OrderServiceImplTest {
     //sementara
     @Autowired
     OrderDetailRepository orderDetailRepository;
-    @Before
+
+    @BeforeEach
     public void cleanUp() {
-        orderDetailRepository.deleteAll();
-        orderRepository.deleteAll();
-
-    }
-
-    @After
-    public void cleanUpAgain() {
         orderDetailRepository.deleteAll();
         orderRepository.deleteAll();
     }
@@ -118,7 +117,6 @@ class OrderServiceImplTest {
 
     @Test
     void getListOfOrder_should_return_2_when_2_dataInput() {
-        orderRepository.deleteAll();
         DiningTable diningTable = new DiningTable("A03", 2);
         diningTable = diningTableService.saveDiningTable(diningTable);
         Order order1 = new Order("Dadang",2, localDateTime, new BigDecimal(0), new BigDecimal(0), initiateOrderDetails(), saveTable().getIdDiningTable());
@@ -131,10 +129,13 @@ class OrderServiceImplTest {
 
     @Test
     void ordering_shouldFail_when_ordering_inUnavailable_DiningTable(){
-        Order order1 = new Order("Dadang",2, localDateTime, new BigDecimal(0), new BigDecimal(0), initiateOrderDetails(), saveTable().getIdDiningTable());
+        DiningTable newDiningTable = new DiningTable("A03", 2);
+        newDiningTable = diningTableService.saveDiningTable(newDiningTable);
+        Order order1 = new Order("Dadang",2, localDateTime, new BigDecimal(0), new BigDecimal(0), initiateOrderDetails(), newDiningTable.getIdDiningTable());
         orderService.ordering(order1);
-        Order order2 = new Order("Ujang",2, localDateTime, new BigDecimal(0), new BigDecimal(0), initiateOrderDetails(), saveTable().getIdDiningTable());
+        Order order2 = new Order("Ujang",2, localDateTime, new BigDecimal(0), new BigDecimal(0), initiateOrderDetails(), newDiningTable.getIdDiningTable());
         Assertions.assertThrows(TableIsNotEmptyException.class, () -> {orderService.ordering(order2);});
+
     }
 
     @Test

@@ -2,6 +2,8 @@ package com.enigma.services.implement;
 
 import com.enigma.entities.Menu;
 import com.enigma.entities.MenuCategory;
+import com.enigma.exceptions.BadRequestException;
+import com.enigma.exceptions.NotFoundException;
 import com.enigma.repositories.MenuRepository;
 import com.enigma.services.FileService;
 import com.enigma.services.MenuCategoryService;
@@ -11,9 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -21,13 +22,16 @@ public class MenuServiceImpl implements MenuService {
 
     @Autowired
     MenuRepository menuRepository;
+
     @Autowired
     MenuCategoryService menuCategoryService;
+
     @Autowired
     FileService fileService;
 
     @Override
     public Menu getMenuById(String id) {
+        if (!(menuRepository.findById(id).isPresent())) throw new NotFoundException("Menu with id : " + id + " is not found.");
         return menuRepository.findById(id).get();
     }
 
@@ -38,6 +42,10 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public Menu createMenu(Menu menu) {
+        validatingMenuNameEmpty(menu.getMenuName());
+        validatingPriceEmpty(menu.getPrice());
+        validatingAvailabilityEmpty(menu.getAvailability());
+        validatingMenuCategoryEmpty(menu.getIdMenuCategoryTransient());
         MenuCategory menuCategory = menuCategoryService.getMenuCategoryById(menu.getIdMenuCategoryTransient());
         menu.setMenuCategory(menuCategory);
         return menuRepository.save(menu);
@@ -55,11 +63,32 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public void deleteMenuById(String id) {
+        getMenuById(id);
         menuRepository.deleteById(id);
     }
 
     @Override
     public Menu updateMenu(Menu menu) {
+        validatingMenuNameEmpty(menu.getMenuName());
+        validatingPriceEmpty(menu.getPrice());
+        validatingAvailabilityEmpty(menu.getAvailability());
+        validatingMenuCategoryEmpty(menu.getIdMenuCategoryTransient());
         return menuRepository.save(menu);
+    }
+
+    private void validatingMenuNameEmpty(String value) {
+        if (value.isEmpty()) throw new BadRequestException("Menu name can't be empty");
+    }
+
+    private void validatingPriceEmpty(BigDecimal value) {
+        if (value == null) throw new BadRequestException("Menu price can't be empty");
+    }
+
+    private void validatingAvailabilityEmpty(Boolean value) {
+        if (value == null) throw new BadRequestException("Menu availability can't be empty");
+    }
+
+    private void validatingMenuCategoryEmpty(String value) {
+        if (value.isEmpty()) throw new BadRequestException("Menu Category can't be empty");
     }
 }

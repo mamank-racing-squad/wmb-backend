@@ -46,8 +46,8 @@ public class MenuServiceImpl implements MenuService {
         validatingMenuNameEmpty(menu.getMenuName());
         validatingPriceEmpty(menu.getPrice());
         validatingAvailabilityEmpty(menu.getAvailability());
-        validatingMenuCategoryEmpty(menu.getIdMenuCategoryTransient());
-        MenuCategory menuCategory = menuCategoryService.getMenuCategoryById(menu.getIdMenuCategoryTransient());
+        validatingMenuCategoryEmpty(menu.getIdMenuCategory());
+        MenuCategory menuCategory = menuCategoryService.getMenuCategoryById(menu.getIdMenuCategory());
         menu.setMenuCategory(menuCategory);
         return menuRepository.save(menu);
     }
@@ -73,7 +73,7 @@ public class MenuServiceImpl implements MenuService {
         validatingMenuNameEmpty(menu.getMenuName());
         validatingPriceEmpty(menu.getPrice());
         validatingAvailabilityEmpty(menu.getAvailability());
-        validatingMenuCategoryEmpty(menu.getIdMenuCategoryTransient());
+        validatingMenuCategoryEmpty(menu.getIdMenuCategory());
         return menuRepository.save(menu);
     }
 

@@ -28,18 +28,18 @@ public class Menu {
     private MenuCategory menuCategory;
 
     @Transient
-    private String idMenuCategoryTransient;
+    private String idMenuCategory;
 
-    public Menu(String menuName, BigDecimal price, Boolean availability, String idMenuCategoryTransient) {
+    public Menu(String menuName, BigDecimal price, Boolean availability, String idMenuCategory) {
         this.menuName = menuName;
         this.price = price;
         this.availability = availability;
-        this.idMenuCategoryTransient = idMenuCategoryTransient;
+        this.idMenuCategory = idMenuCategory;
     }
 
-    public String getIdMenuCategoryTransient() {
-        if (this.getMenuCategory() != null) setIdMenuCategoryTransient(getMenuCategory().getIdMenuCategory());
-        return idMenuCategoryTransient;
+    public String getIdMenuCategory() {
+        if (this.getMenuCategory() != null) setIdMenuCategory(getMenuCategory().getIdMenuCategory());
+        return idMenuCategory;
     }
 
     @Override

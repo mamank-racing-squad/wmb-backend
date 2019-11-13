@@ -37,6 +37,11 @@ public class Menu {
         this.idMenuCategoryTransient = idMenuCategoryTransient;
     }
 
+    public String getIdMenuCategoryTransient() {
+        if (this.getMenuCategory() != null) setIdMenuCategoryTransient(getMenuCategory().getIdMenuCategory());
+        return idMenuCategoryTransient;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

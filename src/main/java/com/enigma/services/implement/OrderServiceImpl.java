@@ -1,7 +1,7 @@
 package com.enigma.services.implement;
 
 import com.enigma.entities.*;
-import com.enigma.exceptions.PaymentUnsuccessfulException;
+import com.enigma.exceptions.ForbiddenException;
 import com.enigma.repositories.OrderRepository;
 import com.enigma.services.DiningTableService;
 import com.enigma.services.MenuService;
@@ -61,7 +61,7 @@ public class OrderServiceImpl implements OrderService {
         diningTable.costumerOut();
         willBePaidOrder.setPayment(payment.getPay());
         if(willBePaidOrder.getPayment().compareTo(willBePaidOrder.getTotalPrice()) < 0){
-            throw new PaymentUnsuccessfulException();
+            throw new ForbiddenException("Sorry, the money you entered is not enough.");
         }
         willBePaidOrder.setChange(willBePaidOrder.getPayment().subtract(willBePaidOrder.getTotalPrice()));
         return orderRepository.save(willBePaidOrder);

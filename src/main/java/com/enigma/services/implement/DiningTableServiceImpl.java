@@ -28,7 +28,7 @@ public class DiningTableServiceImpl implements DiningTableService {
 
     @Override
     public DiningTable getDiningTableById(String id) {
-        if (!(diningTableRepository.findById(id).isPresent())) throw new NotFoundException("Number Dining Table with number : " + id + " is not found.");
+        if (!(diningTableRepository.findById(id).isPresent())) throw new NotFoundException("Number Dining Table with id : " + id + " is not found.");
         return diningTableRepository.findById(id).get();
     }
 

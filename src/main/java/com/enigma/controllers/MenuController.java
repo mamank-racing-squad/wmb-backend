@@ -16,9 +16,9 @@ import java.util.List;
 @RestController
 @CrossOrigin
 public class MenuController {
+
     @Autowired
     MenuService menuService;
-
 
     @PutMapping("/menu")
     public Menu createMenu(@RequestBody Menu menu){

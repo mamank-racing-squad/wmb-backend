@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MenuCategoryRepository extends JpaRepository<MenuCategory, String> {
+    Boolean existsByCategoryNameIsLike(String likePattern);
 }

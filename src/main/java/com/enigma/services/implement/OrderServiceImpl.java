@@ -1,7 +1,8 @@
 package com.enigma.services.implement;
 
 import com.enigma.entities.*;
-import com.enigma.exceptions.PaymentUnsuccessfulException;
+import com.enigma.exceptions.ForbiddenException;
+import com.enigma.exceptions.NotFoundException;
 import com.enigma.repositories.OrderRepository;
 import com.enigma.services.DiningTableService;
 import com.enigma.services.MenuService;
@@ -40,9 +41,9 @@ public class OrderServiceImpl implements OrderService {
     private BigDecimal getTotalPrice(Order order) {
         BigDecimal totalPrice = new BigDecimal(0);
         for(OrderDetail orderDetail: order.getOrderDetails()){
-            Menu menu = menuService.getMenuById(orderDetail.getIdMenuTransient());
+            Menu menu = menuService.getMenuById(orderDetail.getIdMenu());
             orderDetail.setIdOrder(order);
-            orderDetail.setIdMenu(menu);
+            orderDetail.setMenu(menu);
             orderDetail.setSubTotalPrice(menu.getPrice().multiply(new BigDecimal(orderDetail.getAmount())));
             totalPrice = totalPrice.add(orderDetail.getSubTotalPrice());
         }
@@ -51,6 +52,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order getOrderById(String id) {
+        if (!(orderRepository.findById(id).isPresent())) throw new NotFoundException("Order with id : " + id + " is not found.");
         return orderRepository.findById(id).get();
     }
 
@@ -61,7 +63,7 @@ public class OrderServiceImpl implements OrderService {
         diningTable.costumerOut();
         willBePaidOrder.setPayment(payment.getPay());
         if(willBePaidOrder.getPayment().compareTo(willBePaidOrder.getTotalPrice()) < 0){
-            throw new PaymentUnsuccessfulException();
+            throw new ForbiddenException("Sorry, the money you entered is not enough.");
         }
         willBePaidOrder.setChange(willBePaidOrder.getPayment().subtract(willBePaidOrder.getTotalPrice()));
         return orderRepository.save(willBePaidOrder);

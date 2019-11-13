@@ -1,28 +1,20 @@
 package com.enigma.services.implement;
 
 import com.enigma.entities.*;
-import com.enigma.exceptions.NotAccordingToCapacityException;
-import com.enigma.exceptions.PaymentUnsuccessfulException;
-import com.enigma.exceptions.TableIsNotEmptyException;
+import com.enigma.exceptions.ForbiddenException;
 import com.enigma.repositories.OrderDetailRepository;
 import com.enigma.repositories.OrderRepository;
 import com.enigma.services.DiningTableService;
 import com.enigma.services.MenuCategoryService;
 import com.enigma.services.MenuService;
 import com.enigma.services.OrderService;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -112,7 +104,7 @@ class OrderServiceImplTest {
         Order order = new Order("Dadang",2, localDateTime, new BigDecimal(0), new BigDecimal(0), initiateOrderDetails(), newDiningTable.getIdDiningTable());
         Payment payment = new Payment(new BigDecimal(100));
         orderService.ordering(order);
-        Assertions.assertThrows(PaymentUnsuccessfulException.class, () -> {Order paidOrder = orderService.payment(order, payment);});
+        Assertions.assertThrows(ForbiddenException.class, () -> {Order paidOrder = orderService.payment(order, payment);});
     }
 
     @Test
@@ -134,13 +126,13 @@ class OrderServiceImplTest {
         Order order1 = new Order("Dadang",2, localDateTime, new BigDecimal(0), new BigDecimal(0), initiateOrderDetails(), newDiningTable.getIdDiningTable());
         orderService.ordering(order1);
         Order order2 = new Order("Ujang",2, localDateTime, new BigDecimal(0), new BigDecimal(0), initiateOrderDetails(), newDiningTable.getIdDiningTable());
-        Assertions.assertThrows(TableIsNotEmptyException.class, () -> {orderService.ordering(order2);});
+        Assertions.assertThrows(ForbiddenException.class, () -> {orderService.ordering(order2);});
 
     }
 
     @Test
     void ordering_shouldFail_when_totalCostumer_areNotAccordingTo_DiningTableCapacity(){
         Order order1 = new Order("Dadang",10, localDateTime, new BigDecimal(0), new BigDecimal(0), initiateOrderDetails(), saveTable().getIdDiningTable());
-        Assertions.assertThrows(NotAccordingToCapacityException.class, () -> {orderService.ordering(order1);});
+        Assertions.assertThrows(ForbiddenException.class, () -> {orderService.ordering(order1);});
     }
 }

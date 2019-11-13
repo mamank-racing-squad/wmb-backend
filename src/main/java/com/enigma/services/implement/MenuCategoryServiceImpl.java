@@ -1,7 +1,7 @@
 package com.enigma.services.implement;
 
 import com.enigma.entities.MenuCategory;
-import com.enigma.exceptions.InputCanNotBeEmptyException;
+import com.enigma.exceptions.BadRequestException;
 import com.enigma.repositories.MenuCategoryRepository;
 import com.enigma.services.MenuCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ public class MenuCategoryServiceImpl implements MenuCategoryService {
     @Override
     public MenuCategory createMenuCategory(MenuCategory menuCategory) {
         if(menuCategory.getCategoryName().equals("")){
-            throw new InputCanNotBeEmptyException();
+            throw new BadRequestException();
         }
         return menuCategoryRepository.save(menuCategory);
     }

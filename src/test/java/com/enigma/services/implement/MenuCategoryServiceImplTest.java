@@ -1,14 +1,12 @@
 package com.enigma.services.implement;
 
 import com.enigma.entities.MenuCategory;
-import com.enigma.exceptions.InputCanNotBeEmptyException;
+import com.enigma.exceptions.BadRequestException;
 import com.enigma.repositories.MenuCategoryRepository;
 import com.enigma.services.MenuCategoryService;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -65,7 +63,7 @@ class MenuCategoryServiceImplTest {
     @Test
     public void createMenuCategory_should_return_400_when_dataInputEmpty() {
         MenuCategory menuCategory = new MenuCategory("");
-        assertThrows(InputCanNotBeEmptyException.class, () -> {menuCategoryService.createMenuCategory(menuCategory);});
+        assertThrows(BadRequestException.class, () -> {menuCategoryService.createMenuCategory(menuCategory);});
     }
 
 

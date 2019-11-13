@@ -1,10 +1,7 @@
 package com.enigma.services.implement;
 
 import com.enigma.entities.DiningTable;
-import com.enigma.exceptions.InputCanNotBeEmptyException;
-import com.enigma.exceptions.NotAccordingToCapacityException;
-import com.enigma.exceptions.ResultNotFoundException;
-import com.enigma.exceptions.TableIsNotEmptyException;
+import com.enigma.exceptions.*;
 import com.enigma.repositories.DiningTableRepository;
 import com.enigma.services.DiningTableService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,14 +25,14 @@ public class DiningTableServiceImpl implements DiningTableService {
     }
 
     private void validatingDiningTable(DiningTable diningTable) {
-        if (diningTable.getNumberDiningTable().isEmpty()) throw new InputCanNotBeEmptyException("Number dining table can't be empty");
-        if (diningTableRepository.existsByNumberDiningTable(diningTable.getNumberDiningTable())) throw new InputCanNotBeEmptyException("Number dining table with number : " + diningTable.getNumberDiningTable() + "already exists");
-        else if (diningTable.getCapacity() < 1) throw new InputCanNotBeEmptyException("Capacity can't be less then one");
+        if (diningTable.getNumberDiningTable().isEmpty()) throw new BadRequestException("Number dining table can't be empty");
+        if (diningTableRepository.existsByNumberDiningTable(diningTable.getNumberDiningTable())) throw new BadRequestException("Number dining table with number : " + diningTable.getNumberDiningTable() + " already exists");
+        else if (diningTable.getCapacity() < 1) throw new BadRequestException("Capacity can't be less then one");
     }
 
     @Override
     public DiningTable getDiningTableById(String id) {
-        if (!(diningTableRepository.findById(id).isPresent())) throw new ResultNotFoundException();
+        if (!(diningTableRepository.findById(id).isPresent())) throw new NotFoundException("Number Dining Table with number : " + id + " is not found.");
         return diningTableRepository.findById(id).get();
     }
 
@@ -68,10 +65,10 @@ public class DiningTableServiceImpl implements DiningTableService {
             if(diningTable.getAvailability()){
                 diningTable.costumerEntry();
             }else{
-                throw new TableIsNotEmptyException();
+                throw new ForbiddenException("Sorry, the Table is not Empty");
             }
         }else {
-            throw new NotAccordingToCapacityException();
+            throw new ForbiddenException();
         }
     }
 }

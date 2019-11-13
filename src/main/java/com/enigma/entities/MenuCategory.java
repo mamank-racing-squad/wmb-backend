@@ -40,9 +40,4 @@ public class MenuCategory {
         return Objects.equals(idMenuCategory, that.idMenuCategory) &&
                 Objects.equals(categoryName, that.categoryName);
     }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(idMenuCategory, categoryName);
-    }
 }

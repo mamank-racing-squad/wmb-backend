@@ -28,8 +28,13 @@ public class MenuCategoryController {
         menuCategoryService.deleteMenuCategoryById(id);
     }
 
-    @PostMapping("update/menu-category")
+    @PostMapping("/menu-category")
     public MenuCategory updateMenuCategory(@RequestBody MenuCategory menuCategory){
         return menuCategoryService.updateMenuCategory(menuCategory);
+    }
+
+    @GetMapping("/menu-category/{id}")
+    public MenuCategory getMenuCategoryById(@PathVariable String id){
+        return menuCategoryService.getMenuCategoryById(id);
     }
 }

@@ -1,7 +1,6 @@
 package com.enigma.services.implement;
 
 import com.enigma.entities.*;
-import com.enigma.exceptions.InputCanNotBeEmptyException;
 import com.enigma.exceptions.PaymentUnsuccessfulException;
 import com.enigma.repositories.OrderRepository;
 import com.enigma.services.DiningTableService;
@@ -22,6 +21,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     DiningTableService diningTableService;
+
     @Autowired
     MenuService menuService;
 
@@ -43,7 +43,7 @@ public class OrderServiceImpl implements OrderService {
             Menu menu = menuService.getMenuById(orderDetail.getIdMenuTransient());
             orderDetail.setIdOrder(order);
             orderDetail.setIdMenu(menu);
-            orderDetail.setSubTotalPrice(menu.getPrice().multiply(new BigDecimal(orderDetail.getQuantity())));
+            orderDetail.setSubTotalPrice(menu.getPrice().multiply(new BigDecimal(orderDetail.getAmount())));
             totalPrice = totalPrice.add(orderDetail.getSubTotalPrice());
         }
         return totalPrice;

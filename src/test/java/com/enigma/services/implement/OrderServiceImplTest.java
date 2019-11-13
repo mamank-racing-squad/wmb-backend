@@ -17,8 +17,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -56,7 +58,6 @@ class OrderServiceImplTest {
     public void cleanUp() {
         orderDetailRepository.deleteAll();
         orderRepository.deleteAll();
-        System.out.println(orderRepository.findAll());
     }
 
     public List<OrderDetail> initiateOrderDetails() {
@@ -128,10 +129,13 @@ class OrderServiceImplTest {
 
     @Test
     void ordering_shouldFail_when_ordering_inUnavailable_DiningTable(){
-        Order order1 = new Order("Dadang",2, localDateTime, new BigDecimal(0), new BigDecimal(0), initiateOrderDetails(), saveTable().getIdDiningTable());
+        DiningTable newDiningTable = new DiningTable("A03", 2);
+        newDiningTable = diningTableService.saveDiningTable(newDiningTable);
+        Order order1 = new Order("Dadang",2, localDateTime, new BigDecimal(0), new BigDecimal(0), initiateOrderDetails(), newDiningTable.getIdDiningTable());
         orderService.ordering(order1);
-        Order order2 = new Order("Ujang",2, localDateTime, new BigDecimal(0), new BigDecimal(0), initiateOrderDetails(), saveTable().getIdDiningTable());
+        Order order2 = new Order("Ujang",2, localDateTime, new BigDecimal(0), new BigDecimal(0), initiateOrderDetails(), newDiningTable.getIdDiningTable());
         Assertions.assertThrows(TableIsNotEmptyException.class, () -> {orderService.ordering(order2);});
+
     }
 
     @Test

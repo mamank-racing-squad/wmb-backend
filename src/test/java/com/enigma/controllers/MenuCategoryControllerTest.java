@@ -48,7 +48,7 @@ class MenuCategoryControllerTest {
     void saveMenuCategory_shouldExistInDb() throws Exception {
         String response = mockMvc.perform(put("/menu-category")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(sample1))).andReturn().getResponse().getContentAsString();
+            .content(objectMapper.writeValueAsString(sample2))).andReturn().getResponse().getContentAsString();
 
         MenuCategory expected = new ObjectMapper().readValue(response, MenuCategory.class);
 

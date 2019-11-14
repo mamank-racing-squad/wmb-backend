@@ -19,7 +19,6 @@ public class DiningTable {
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String idDiningTable;
 
-//    @Column(unique = true)
     private String numberDiningTable;
     private Integer capacity;
     private Boolean availability;

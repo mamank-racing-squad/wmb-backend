@@ -27,6 +27,7 @@ public class Order {
     private LocalDateTime createAt;
 
     private BigDecimal payment;
+    private String description;
     private BigDecimal change;
 
     @ManyToOne
@@ -39,7 +40,7 @@ public class Order {
     @Transient
     private String idDiningTable;
 
-    public Order(String costumerName, Integer totalCostumer, LocalDateTime createAt, BigDecimal payment, BigDecimal change, List<OrderDetail> orderDetails, String idDiningTable) {
+    public Order(String costumerName, Integer totalCostumer, LocalDateTime createAt, BigDecimal payment, BigDecimal change, List<OrderDetail> orderDetails, String idDiningTable, String description) {
         this.costumerName = costumerName;
         this.totalCostumer = totalCostumer;
         this.createAt = createAt;
@@ -47,6 +48,7 @@ public class Order {
         this.change = change;
         this.orderDetails = orderDetails;
         this.idDiningTable = idDiningTable;
+        this.description = description;
     }
 
     public String getIdDiningTable() {
@@ -65,7 +67,8 @@ public class Order {
                 totalPrice.compareTo(order.getTotalPrice())==0 &&
                 Objects.equals(createAt, order.createAt) &&
                 payment.compareTo(order.getPayment())==0 &&
-                change.compareTo(order.getChange())==0;
+                change.compareTo(order.getChange())==0 &&
+                Objects.equals(description, order.description);
 //                &&
 //                Objects.equals(diningTable, order.diningTable) &&
 //                Objects.equals(orderDetails, order.orderDetails);

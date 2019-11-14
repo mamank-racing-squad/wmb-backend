@@ -7,6 +7,7 @@ import com.enigma.repositories.MenuRepository;
 import com.enigma.services.MenuCategoryService;
 import com.enigma.services.MenuService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -42,6 +43,11 @@ public class MenuServiceImplTest {
 
     @Before
     public void cleanUp(){
+        menuRepository.deleteAll();
+        menuCategoryRepository.deleteAll();
+    }
+    @After
+    public void cleanUpAgain(){
         menuRepository.deleteAll();
         menuCategoryRepository.deleteAll();
     }
@@ -83,11 +89,11 @@ public class MenuServiceImplTest {
         File file = new File("E:\\mini-project-enigma-2019\\wmb-backend\\src\\test\\java\\com\\enigma\\services\\implement\\soto.jpg");
         FileInputStream input = new FileInputStream(file);
         MultipartFile image = new MockMultipartFile("image", input);
-        Menu menu = new Menu("Ikan Bakar", new BigDecimal(50000), true, menuCategory.getIdMenuCategory());
+        Menu menu = new Menu("ikan asin", new BigDecimal(50000), true, menuCategory.getIdMenuCategory());
         ObjectMapper objectMapper = new ObjectMapper();
         String menuInput = objectMapper.writeValueAsString(menu);
         Menu menuWithImage = menuService.createMenuWithImage(menuInput, image);
-        FileReader fileReader = new FileReader("C:/nginx-1.16.1/html/menu-img/"+menuWithImage.getIdMenu()+".jpg");
+        FileReader fileReader = new FileReader("C:/nginx-1.16.1/html/menu-image/"+menuWithImage.getIdMenu()+".jpg");
         assertEquals(menuWithImage, menuRepository.findById(menuWithImage.getIdMenu()).get());
         assertFalse(fileReader.getEncoding().isEmpty());
     }

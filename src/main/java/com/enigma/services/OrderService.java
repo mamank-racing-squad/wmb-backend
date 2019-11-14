@@ -12,4 +12,5 @@ public interface OrderService {
     Order getOrderById(String id);
     Order payment(Order order, Payment payment);
     List<Order> getListOfOrder();
+    List<Order> getUnpaidOrder();
 }

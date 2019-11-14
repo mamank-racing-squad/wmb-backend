@@ -65,7 +65,7 @@ public class DiningTableServiceImpl implements DiningTableService {
                 throw new ForbiddenException("Sorry, the Table is not Empty");
             }
         }else {
-            throw new ForbiddenException();
+            throw new ForbiddenException("Sorry, Total costumer not according to table capacity");
         }
     }
 

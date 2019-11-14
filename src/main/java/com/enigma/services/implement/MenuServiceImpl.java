@@ -44,14 +44,15 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public Menu createMenuWithImage(String menuInput, MultipartFile image) throws IOException {
-        Menu menu = menuRepository.save(objectMapper.readValue(menuInput, Menu.class));
+        Menu menu = objectMapper.readValue(menuInput, Menu.class);
         validatingMenuNameIsExist(menu.getMenuName());
         validatingMenuNameEmpty(menu.getMenuName());
         validatingPriceEmpty(menu.getPrice());
         validatingAvailabilityEmpty(menu.getIsAvailable());
         validatingMenuCategoryEmpty(menu.getIdMenuCategory());
+        menu.setMenuCategory(menuCategoryService.getMenuCategoryById(menu.getIdMenuCategory()));
         fileService.saveFile(image, menu.getIdMenu());
-        return menu;
+        return menuRepository.save(menu);
     }
 
     @Override

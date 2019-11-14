@@ -30,6 +30,11 @@ public class MenuController {
         return menuService.createMenuWithImage(menuInput, image);
     }
 
+    @PostMapping("/menu/upload")
+    public Menu createMenuWithImageEdit(@RequestPart MultipartFile image, String menuInput) throws IOException {
+        return menuService.createMenuWithImage(menuInput, image);
+    }
+
     @GetMapping("/menu/{id}")
     public Menu getMenuById(@PathVariable String id){
         return menuService.getMenuById(id);

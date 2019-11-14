@@ -28,6 +28,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order ordering(Order order) {
+        if (order.getOrderDetails().isEmpty()) throw new ForbiddenException("Menu is empty, please select menu");
         DiningTable diningTable = diningTableService.getDiningTableById(order.getIdDiningTable());
         order.setDiningTable(diningTable);
         diningTableService.costumerDining(order.getTotalCostumer(), diningTable);

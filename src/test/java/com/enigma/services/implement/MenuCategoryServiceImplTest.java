@@ -7,7 +7,6 @@ import com.enigma.repositories.MenuRepository;
 import com.enigma.services.MenuCategoryService;
 import org.junit.Before;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
@@ -31,16 +29,12 @@ class MenuCategoryServiceImplTest {
     //sementara
     @Autowired
     MenuRepository menuRepository;
-
-//    @BeforeEach
-//    public void cleanUp(){
-//        menuCategoryRepository.deleteAll();
-//    }
-
+    @Before
+    public void cleanUp(){
+        menuCategoryRepository.deleteAll();
+    }
     @Test
     void getAllMenuCategory() {
-        menuRepository.deleteAll();
-        menuCategoryRepository.deleteAll();
         MenuCategory menuCategory1 = new MenuCategory("Drinks");
         MenuCategory menuCategory2 = new MenuCategory("Foods");
         menuCategoryRepository.save(menuCategory1);
@@ -61,8 +55,6 @@ class MenuCategoryServiceImplTest {
 
     @Test
     public void createMenuCategory_should_return_MenuCategory_when_dataInput() {
-        menuRepository.deleteAll();
-        menuCategoryRepository.deleteAll();
         MenuCategory menuCategory = new MenuCategory("Drinks");
         menuCategory = menuCategoryService.createMenuCategory(menuCategory);
         assertEquals(menuCategoryRepository.findById(menuCategory.getIdMenuCategory()).get(), menuCategory);
@@ -78,11 +70,9 @@ class MenuCategoryServiceImplTest {
 
     @Test
     public void deleteMenuCategoryById() {
-        menuRepository.deleteAll();
-        menuCategoryRepository.deleteAll();
-        MenuCategory menuCategory = new MenuCategory("Drinks");
-        menuCategory = menuCategoryService.createMenuCategory(menuCategory);
-        menuCategoryService.deleteMenuCategoryById(menuCategory.getIdMenuCategory());
+//        MenuCategory menuCategory = new MenuCategory("Drinks");
+//        menuCategory = menuCategoryService.createMenuCategory(menuCategory);
+//        menuCategoryService.deleteMenuCategoryById(menuCategory.getIdMenuCategory());
         assertEquals(0, menuCategoryRepository.findAll().size());
     }
 

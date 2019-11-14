@@ -55,7 +55,7 @@ public class DiningTableControllerTest {
     public void saveDiningTable_shouldExistInDb() throws Exception {
         String response = mockMvc.perform(put("/dining-table")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(sample1))).andReturn().getResponse().getContentAsString();
+                .content(objectMapper.writeValueAsString(sample2))).andReturn().getResponse().getContentAsString();
 
         DiningTable expected = new ObjectMapper().readValue(response, DiningTable.class);
 

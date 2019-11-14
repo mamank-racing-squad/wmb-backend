@@ -37,6 +37,18 @@ public class Menu {
         this.idMenuCategory = idMenuCategory;
     }
 
+    public Menu(String menuName, Boolean isAvailable, String idMenuCategory) {
+        this.menuName = menuName;
+        this.isAvailable = isAvailable;
+        this.idMenuCategory = idMenuCategory;
+    }
+
+    public Menu(String menuName, BigDecimal price, String idMenuCategory) {
+        this.menuName = menuName;
+        this.price = price;
+        this.idMenuCategory = idMenuCategory;
+    }
+
     public String getIdMenuCategory() {
         if (this.getMenuCategory() != null) setIdMenuCategory(getMenuCategory().getIdMenuCategory());
         return idMenuCategory;

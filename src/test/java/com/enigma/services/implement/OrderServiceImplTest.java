@@ -89,9 +89,9 @@ public class OrderServiceImplTest {
         OrderDetail orderDetail = new OrderDetail(menu1.getIdMenu(),2,"pedas banget");
         orderDetails.add(orderDetail);
 
-        DiningTable diningTable = diningTableService.saveDiningTable(table1);
+        DiningTable diningTable = diningTableService.createDiningTable(table1);
 
-        diningTable = diningTableService.saveDiningTable(diningTable);
+        diningTable = diningTableService.createDiningTable(diningTable);
         Order order = new Order("Dadang",2, localDateTime, new BigDecimal(0), new BigDecimal(0), orderDetails, diningTable.getIdDiningTable());
         order = orderService.ordering(order);
         Order expected = orderService.getOrderById(order.getIdOrder());
@@ -107,7 +107,7 @@ public class OrderServiceImplTest {
         List<OrderDetail> orderDetails = new ArrayList<>();
         OrderDetail orderDetail = new OrderDetail(menu1.getIdMenu(),2,"pedas banget");
         orderDetails.add(orderDetail);
-        DiningTable diningTable = diningTableService.saveDiningTable(table1);
+        DiningTable diningTable = diningTableService.createDiningTable(table1);
         Order order1 = new Order("Dadang",2, localDateTime, new BigDecimal(0), new BigDecimal(0), orderDetails, diningTable.getIdDiningTable());
         order1 = orderService.ordering(order1);
         Order expected = orderRepository.findById(order1.getIdOrder()).get();

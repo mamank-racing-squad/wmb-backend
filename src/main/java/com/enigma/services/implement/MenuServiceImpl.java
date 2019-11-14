@@ -1,7 +1,6 @@
 package com.enigma.services.implement;
 
 import com.enigma.entities.Menu;
-import com.enigma.entities.MenuCategory;
 import com.enigma.exceptions.BadRequestException;
 import com.enigma.exceptions.NotFoundException;
 import com.enigma.repositories.MenuRepository;
@@ -27,6 +26,9 @@ public class MenuServiceImpl implements MenuService {
     MenuCategoryService menuCategoryService;
 
     @Autowired
+    ObjectMapper objectMapper;
+
+    @Autowired
     FileService fileService;
 
     @Override
@@ -41,23 +43,13 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public Menu createMenu(Menu menu) {
+    public Menu createMenuWithImage(String menuInput, MultipartFile image) throws IOException {
+        Menu menu = menuRepository.save(objectMapper.readValue(menuInput, Menu.class));
         validatingMenuNameIsExist(menu.getMenuName());
         validatingMenuNameEmpty(menu.getMenuName());
         validatingPriceEmpty(menu.getPrice());
-        validatingAvailabilityEmpty(menu.getAvailability());
+        validatingAvailabilityEmpty(menu.getIsAvailable());
         validatingMenuCategoryEmpty(menu.getIdMenuCategory());
-        MenuCategory menuCategory = menuCategoryService.getMenuCategoryById(menu.getIdMenuCategory());
-        menu.setMenuCategory(menuCategory);
-        return menuRepository.save(menu);
-    }
-
-    @Override
-    public Menu createMenuWithImage(String menuInput, MultipartFile image) throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        Menu menu = objectMapper.readValue(menuInput, Menu.class);
-        menu = createMenu(menu);
         fileService.saveFile(image, menu.getIdMenu());
         return menu;
     }
@@ -69,12 +61,14 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public Menu updateMenu(Menu menu) {
+    public Menu updateMenuWithImage(String menuInput, MultipartFile image) throws IOException {
+        Menu menu = menuRepository.save(objectMapper.readValue(menuInput, Menu.class));
         validatingMenuNameEmpty(menu.getMenuName());
         validatingPriceEmpty(menu.getPrice());
-        validatingAvailabilityEmpty(menu.getAvailability());
+        validatingAvailabilityEmpty(menu.getIsAvailable());
         validatingMenuCategoryEmpty(menu.getIdMenuCategory());
-        return menuRepository.save(menu);
+        fileService.saveFile(image, menu.getIdMenu());
+        return menu;
     }
 
     private void validatingMenuNameIsExist(String value) {

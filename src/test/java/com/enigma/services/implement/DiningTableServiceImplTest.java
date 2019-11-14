@@ -42,7 +42,7 @@ public class DiningTableServiceImplTest {
 
     @Test
     public void saveDiningTable() {
-        DiningTable expected = diningTableService.saveDiningTable(sample1);
+        DiningTable expected = diningTableService.createDiningTable(sample1);
         DiningTable result = diningTableRepository.findById(expected.getIdDiningTable()).get();
 
         assertEquals(expected, result);
@@ -50,7 +50,7 @@ public class DiningTableServiceImplTest {
 
     @Test
     public void getDiningTableById() {
-        DiningTable sampleDiningTable = diningTableService.saveDiningTable(sample1);
+        DiningTable sampleDiningTable = diningTableService.createDiningTable(sample1);
 
         DiningTable expected = diningTableService.getDiningTableById(sampleDiningTable.getIdDiningTable());
         DiningTable result = diningTableRepository.findById(sampleDiningTable.getIdDiningTable()).get();
@@ -61,8 +61,8 @@ public class DiningTableServiceImplTest {
 
     @Test
     public void getAllDiningTable() {
-        diningTableService.saveDiningTable(sample1);
-        diningTableService.saveDiningTable(sample2);
+        diningTableService.createDiningTable(sample1);
+        diningTableService.createDiningTable(sample2);
 
         List<DiningTable> expected = diningTableService.getAllDiningTable();
         List<DiningTable> result = diningTableRepository.findAll();
@@ -72,8 +72,8 @@ public class DiningTableServiceImplTest {
 
     @Test
     public void getAllDiningTableWithPagination() {
-        diningTableService.saveDiningTable(sample1);
-        diningTableService.saveDiningTable(sample2);
+        diningTableService.createDiningTable(sample1);
+        diningTableService.createDiningTable(sample2);
 
         Page<DiningTable> expected = diningTableService.getAllDiningTableWithPagination(pageable);
         Page<DiningTable> result = diningTableRepository.findAll(pageable);
@@ -83,10 +83,10 @@ public class DiningTableServiceImplTest {
 
     @Test
     public void updateDiningTable() {
-        DiningTable sampleDiningTable = diningTableService.saveDiningTable(sample1);
+        DiningTable sampleDiningTable = diningTableService.createDiningTable(sample1);
 
         sampleDiningTable.setCapacity(4);
-        sampleDiningTable.setAvailability(false);
+        sampleDiningTable.setIsAvailable(false);
 
         DiningTable expected = diningTableService.updateDiningTable(sampleDiningTable);
         DiningTable result = diningTableRepository.findById(sampleDiningTable.getIdDiningTable()).get();
@@ -96,7 +96,7 @@ public class DiningTableServiceImplTest {
 
     @Test
     public void deleteDiningTableById() {
-        DiningTable sampleDiningTable = diningTableService.saveDiningTable(sample1);
+        DiningTable sampleDiningTable = diningTableService.createDiningTable(sample1);
 
         diningTableService.deleteDiningTableById(sampleDiningTable.getIdDiningTable());
 

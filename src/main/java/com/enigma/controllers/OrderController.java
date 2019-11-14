@@ -36,7 +36,7 @@ public class OrderController {
         return orderService.getListOfOrder();
     }
 
-    @GetMapping("/orders/{id}")
+    @GetMapping("/order/{id}")
     public Order getOrderById(@PathVariable String id){
         return orderService.getOrderById(id);
     }

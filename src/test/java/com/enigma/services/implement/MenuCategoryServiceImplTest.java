@@ -6,6 +6,7 @@ import com.enigma.repositories.MenuCategoryRepository;
 import com.enigma.services.MenuCategoryService;
 import org.junit.Before;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ class MenuCategoryServiceImplTest {
     @Autowired
     MenuCategoryService menuCategoryService;
 
-    @Before
+    @BeforeEach
     public void cleanUp(){
         menuCategoryRepository.deleteAll();
     }

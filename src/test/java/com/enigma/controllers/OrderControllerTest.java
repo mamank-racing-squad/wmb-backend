@@ -20,7 +20,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -61,7 +60,7 @@ class OrderControllerTest {
 
     public DiningTable saveTable(){
         DiningTable diningTable = new DiningTable("A02", 2);
-        return diningTableService.saveDiningTable(diningTable);
+        return diningTableService.createDiningTable(diningTable);
     }
 
     private LocalDateTime localDateTime = LocalDateTime.now();

@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -21,7 +20,7 @@ public class DiningTable {
 
     private String numberDiningTable;
     private Integer capacity;
-    private Boolean availability;
+    private Boolean isAvailable;
 
     public DiningTable(String numberDiningTable, Integer capacity) {
         this.numberDiningTable = numberDiningTable;
@@ -29,11 +28,11 @@ public class DiningTable {
     }
 
     public void costumerEntry(){
-        this.availability = false;
+        this.isAvailable = false;
     }
 
     public void costumerOut(){
-        this.availability = true;
+        this.isAvailable = true;
     }
 
     @Override

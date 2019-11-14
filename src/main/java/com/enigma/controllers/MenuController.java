@@ -21,18 +21,13 @@ public class MenuController {
     MenuService menuService;
 
     @PutMapping("/menu")
-    public Menu createMenu(@RequestBody Menu menu){
-        return menuService.createMenu(menu);
-    }
-
-    @PutMapping("/menu/upload")
     public Menu createMenuWithImage(@RequestPart MultipartFile image, String menuInput) throws IOException {
         return menuService.createMenuWithImage(menuInput, image);
     }
 
-    @PostMapping("/menu/upload")
+    @PostMapping("/menu")
     public Menu createMenuWithImageEdit(@RequestPart MultipartFile image, String menuInput) throws IOException {
-        return menuService.createMenuWithImage(menuInput, image);
+        return menuService.updateMenuWithImage(menuInput, image);
     }
 
     @GetMapping("/menu/{id}")
@@ -40,7 +35,7 @@ public class MenuController {
         return menuService.getMenuById(id);
     }
 
-    @GetMapping("/list-menu")
+    @GetMapping("/menus")
     public List<Menu> getAllMenu(){
         return menuService.getAllMenu();
     }
@@ -49,10 +44,4 @@ public class MenuController {
     public void deleteMenu(@PathVariable String id){
         menuService.deleteMenuById(id);
     }
-
-    @PostMapping("/menu")
-    public Menu updateMenu(@RequestBody Menu menu){
-        return menuService.updateMenu(menu);
-    }
-
 }

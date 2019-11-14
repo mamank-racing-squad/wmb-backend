@@ -18,7 +18,7 @@ public class DiningTableController {
 
     @PutMapping("/dining-table")
     public DiningTable saveDiningTable(@RequestBody DiningTable diningTable){
-        return diningTableService.saveDiningTable(diningTable);
+        return diningTableService.createDiningTable(diningTable);
     }
 
     @GetMapping("/dining-table/{id}")

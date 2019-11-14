@@ -18,11 +18,11 @@ public class DiningTableServiceImpl implements DiningTableService {
     DiningTableRepository diningTableRepository;
 
     @Override
-    public DiningTable saveDiningTable(DiningTable diningTable) {
+    public DiningTable createDiningTable(DiningTable diningTable) {
         validatingNumberDiningTableEmpty(diningTable.getNumberDiningTable());
         validatingNumberDiningTableIsExist(diningTable.getNumberDiningTable());
         validatingCapacityIsLessThanOne(diningTable.getCapacity());
-        diningTable.setAvailability(true);
+        diningTable.setIsAvailable(true);
         return diningTableRepository.save(diningTable);
     }
 
@@ -59,7 +59,7 @@ public class DiningTableServiceImpl implements DiningTableService {
     @Override
     public void costumerDining(Integer totalCostumer, DiningTable diningTable) {
         if(totalCostumer<=diningTable.getCapacity()){
-            if(diningTable.getAvailability()){
+            if(diningTable.getIsAvailable()){
                 diningTable.costumerEntry();
             }else{
                 throw new ForbiddenException("Sorry, the Table is not Empty");

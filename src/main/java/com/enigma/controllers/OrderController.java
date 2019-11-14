@@ -6,7 +6,6 @@ import com.enigma.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -27,8 +26,18 @@ public class OrderController {
         return orderService.payment(order, payment);
     }
 
+    @GetMapping("/payment")
+    public List<Order> getUnpaidOrder(){
+        return orderService.getUnpaidOrder();
+    }
+
     @GetMapping("/orders")
     public List<Order> getListOfOrder(){
         return orderService.getListOfOrder();
+    }
+
+    @GetMapping("/orders/{id}")
+    public Order getOrderById(@PathVariable String id){
+        return orderService.getOrderById(id);
     }
 }

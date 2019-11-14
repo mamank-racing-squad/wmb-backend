@@ -73,4 +73,9 @@ public class OrderServiceImpl implements OrderService {
     public List<Order> getListOfOrder() {
         return orderRepository.findAll();
     }
+
+    @Override
+    public List<Order> getUnpaidOrder() {
+        return orderRepository.findAllByPaymentIsNull();
+    }
 }

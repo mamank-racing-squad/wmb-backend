@@ -51,8 +51,9 @@ public class MenuServiceImpl implements MenuService {
         validatingAvailabilityEmpty(menu.getIsAvailable());
         validatingMenuCategoryEmpty(menu.getIdMenuCategory());
         menu.setMenuCategory(menuCategoryService.getMenuCategoryById(menu.getIdMenuCategory()));
+        menu = menuRepository.save(menu);
         fileService.saveFile(image, menu.getIdMenu());
-        return menuRepository.save(menu);
+        return menu;
     }
 
     @Override

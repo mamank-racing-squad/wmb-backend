@@ -79,41 +79,41 @@ public class OrderServiceImplTest {
     private static DiningTable table1 = new DiningTable("A03", 2);
     private static DiningTable table2 = new DiningTable("A02", 4);
 
-    @Test
-    public void getOrderById_should_returnTrue_Order_when_Found() {
-        MenuCategory menuCategory = new MenuCategory("Foods");
-        MenuCategory newMenuCategory = menuCategoryService.createMenuCategory(menuCategory);
-        Menu menu1 = new Menu("Ikan Bakar", new BigDecimal(50000), true, newMenuCategory.getIdMenuCategory());
-        menu1 = menuService.createMenu(menu1);
-        List<OrderDetail> orderDetails = new ArrayList<>();
-        OrderDetail orderDetail = new OrderDetail(menu1.getIdMenu(),2,"pedas banget");
-        orderDetails.add(orderDetail);
+//    @Test
+//    public void getOrderById_should_returnTrue_Order_when_Found() {
+//        MenuCategory menuCategory = new MenuCategory("Foods");
+//        MenuCategory newMenuCategory = menuCategoryService.createMenuCategory(menuCategory);
+//        Menu menu1 = new Menu("Ikan Bakar", new BigDecimal(50000), true, newMenuCategory.getIdMenuCategory());
+//        menu1 = menuRepository.save(menu1);
+//        List<OrderDetail> orderDetails = new ArrayList<>();
+//        OrderDetail orderDetail = new OrderDetail(menu1.getIdMenu(),2);
+//        orderDetails.add(orderDetail);
+//
+//        DiningTable diningTable = diningTableService.createDiningTable(table1);
+//
+//        diningTable = diningTableService.createDiningTable(diningTable);
+//        Order order = new Order("Dadang",2, localDateTime, new BigDecimal(0), new BigDecimal(0), orderDetails, diningTable.getIdDiningTable());
+//        order = orderService.ordering(order);
+//        Order expected = orderService.getOrderById(order.getIdOrder());
+//        assertEquals(expected, order);
+//    }
 
-        DiningTable diningTable = diningTableService.createDiningTable(table1);
-
-        diningTable = diningTableService.createDiningTable(diningTable);
-        Order order = new Order("Dadang",2, localDateTime, new BigDecimal(0), new BigDecimal(0), orderDetails, diningTable.getIdDiningTable());
-        order = orderService.ordering(order);
-        Order expected = orderService.getOrderById(order.getIdOrder());
-        assertEquals(expected, order);
-    }
-
-    @Test
-    public void ordering_should_return_Order_when_Ordering() {
-        MenuCategory menuCategory = new MenuCategory("drinks");
-        MenuCategory newMenuCategory = menuCategoryService.createMenuCategory(menuCategory);
-        Menu menu1 = new Menu("lauk Bakar", new BigDecimal(50000), true, newMenuCategory.getIdMenuCategory());
-        menu1 = menuService.createMenu(menu1);
-        List<OrderDetail> orderDetails = new ArrayList<>();
-        OrderDetail orderDetail = new OrderDetail(menu1.getIdMenu(),2,"pedas banget");
-        orderDetails.add(orderDetail);
-        DiningTable diningTable = diningTableService.createDiningTable(table1);
-        Order order1 = new Order("Dadang",2, localDateTime, new BigDecimal(0), new BigDecimal(0), orderDetails, diningTable.getIdDiningTable());
-        order1 = orderService.ordering(order1);
-        Order expected = orderRepository.findById(order1.getIdOrder()).get();
-        Order actual = orderService.getOrderById(order1.getIdOrder());
-        assertEquals(expected, actual);
-    }
+//    @Test
+//    public void ordering_should_return_Order_when_Ordering() {
+//        MenuCategory menuCategory = new MenuCategory("drinks");
+//        MenuCategory newMenuCategory = menuCategoryService.createMenuCategory(menuCategory);
+//        Menu menu1 = new Menu("lauk Bakar", new BigDecimal(50000), true, newMenuCategory.getIdMenuCategory());
+//        menu1 = menuRepository.save(menu1);
+//        List<OrderDetail> orderDetails = new ArrayList<>();
+//        OrderDetail orderDetail = new OrderDetail(menu1.getIdMenu(),2,"pedas banget");
+//        orderDetails.add(orderDetail);
+//        DiningTable diningTable = diningTableService.createDiningTable(table1);
+//        Order order1 = new Order("Dadang",2, localDateTime, new BigDecimal(0), new BigDecimal(0), orderDetails, diningTable.getIdDiningTable());
+//        order1 = orderService.ordering(order1);
+//        Order expected = orderRepository.findById(order1.getIdOrder()).get();
+//        Order actual = orderService.getOrderById(order1.getIdOrder());
+//        assertEquals(expected, actual);
+//    }
 
 
 //

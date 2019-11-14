@@ -33,13 +33,11 @@ public class OrderDetail {
     private String idMenu;
 
     private Integer amount;
-    private String description;
     private BigDecimal subTotalPrice;
 
-    public OrderDetail(String idMenu, Integer amount, String description) {
+    public OrderDetail(String idMenu, Integer amount) {
         this.idMenu = idMenu;
         this.amount = amount;
-        this.description = description;
     }
 
     public String getIdMenu() {
@@ -57,7 +55,6 @@ public class OrderDetail {
                 Objects.equals(menu, that.menu) &&
                 Objects.equals(idMenu, that.idMenu) &&
                 Objects.equals(amount, that.amount) &&
-                Objects.equals(description, that.description) &&
                 subTotalPrice.compareTo(that.getSubTotalPrice())==0;
     }
 

@@ -3,6 +3,7 @@ package com.enigma.services.implement;
 import com.enigma.entities.MenuCategory;
 import com.enigma.exceptions.BadRequestException;
 import com.enigma.repositories.MenuCategoryRepository;
+import com.enigma.repositories.MenuRepository;
 import com.enigma.services.MenuCategoryService;
 import org.junit.Before;
 import org.junit.jupiter.api.Assertions;
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.assertEquals;
@@ -26,14 +28,18 @@ class MenuCategoryServiceImplTest {
 
     @Autowired
     MenuCategoryService menuCategoryService;
+    //sementara
+    @Autowired
+    MenuRepository menuRepository;
 
-    @BeforeEach
-    public void cleanUp(){
-        menuCategoryRepository.deleteAll();
-    }
+//    @BeforeEach
+//    public void cleanUp(){
+//        menuCategoryRepository.deleteAll();
+//    }
 
     @Test
     void getAllMenuCategory() {
+        menuRepository.deleteAll();
         menuCategoryRepository.deleteAll();
         MenuCategory menuCategory1 = new MenuCategory("Drinks");
         MenuCategory menuCategory2 = new MenuCategory("Foods");
@@ -55,6 +61,8 @@ class MenuCategoryServiceImplTest {
 
     @Test
     public void createMenuCategory_should_return_MenuCategory_when_dataInput() {
+        menuRepository.deleteAll();
+        menuCategoryRepository.deleteAll();
         MenuCategory menuCategory = new MenuCategory("Drinks");
         menuCategory = menuCategoryService.createMenuCategory(menuCategory);
         assertEquals(menuCategoryRepository.findById(menuCategory.getIdMenuCategory()).get(), menuCategory);
@@ -70,6 +78,7 @@ class MenuCategoryServiceImplTest {
 
     @Test
     public void deleteMenuCategoryById() {
+        menuRepository.deleteAll();
         menuCategoryRepository.deleteAll();
         MenuCategory menuCategory = new MenuCategory("Drinks");
         menuCategory = menuCategoryService.createMenuCategory(menuCategory);

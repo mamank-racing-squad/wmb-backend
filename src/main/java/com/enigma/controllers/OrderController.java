@@ -35,8 +35,9 @@ public class OrderController {
     public List<Order> getListOfOrder(){
         return orderService.getListOfOrder();
     }
-    @CrossOrigin
-    @GetMapping("/orders/{id}")
+
+
+    @GetMapping("/order/{id}")
     public Order getOrderById(@PathVariable String id){
         return orderService.getOrderById(id);
     }

@@ -1,6 +1,7 @@
 package com.enigma.services.implement;
 
 import com.enigma.entities.Menu;
+import com.enigma.entities.MenuCategory;
 import com.enigma.exceptions.BadRequestException;
 import com.enigma.exceptions.NotFoundException;
 import com.enigma.repositories.MenuRepository;
@@ -44,15 +45,23 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public Menu createMenuWithImage(String menuInput, MultipartFile image) throws IOException {
-        Menu menu = objectMapper.readValue(menuInput, Menu.class);
+    public Menu createMenu(Menu menu) {
         validatingMenuNameIsExist(menu.getMenuName());
         validatingMenuNameEmpty(menu.getMenuName());
         validatingPriceEmpty(menu.getPrice());
         validatingAvailabilityEmpty(menu.getIsAvailable());
         validatingMenuCategoryEmpty(menu.getIdMenuCategory());
-        menu.setMenuCategory(menuCategoryService.getMenuCategoryById(menu.getIdMenuCategory()));
-        menu = menuRepository.save(menu);
+        MenuCategory menuCategory = menuCategoryService.getMenuCategoryById(menu.getIdMenuCategory());
+        menu.setMenuCategory(menuCategory);
+        return menuRepository.save(menu);
+    }
+
+    @Override
+    public Menu createMenuWithImage(String menuInput, MultipartFile image) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        Menu menu = objectMapper.readValue(menuInput, Menu.class);
+        menu = createMenu(menu);
         fileService.saveFile(image, menu.getIdMenu());
         return menu;
     }
@@ -73,6 +82,16 @@ public class MenuServiceImpl implements MenuService {
         fileService.saveFile(image, menu.getIdMenu());
         return menu;
     }
+
+    @Override
+    public Menu updateMenu(Menu menu) {
+        validatingMenuNameEmpty(menu.getMenuName());
+        validatingPriceEmpty(menu.getPrice());
+        validatingAvailabilityEmpty(menu.getIsAvailable());
+        validatingMenuCategoryEmpty(menu.getIdMenuCategory());
+        return menuRepository.save(menu);
+    }
+
 
     private void validatingMenuNameIsExist(String value) {
         if (menuRepository.existsByMenuNameIsLike(value)) throw new BadRequestException("Menu name with name : " + value + " already exist");

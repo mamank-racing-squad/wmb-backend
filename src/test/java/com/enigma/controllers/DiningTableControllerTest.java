@@ -3,6 +3,7 @@ package com.enigma.controllers;
 import com.enigma.entities.DiningTable;
 import com.enigma.repositories.DiningTableRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,7 @@ public class DiningTableControllerTest {
 
     @Autowired
     DiningTableRepository diningTableRepository;
+
 
     private static Pageable pageable = PageRequest.of(0, 10);
 

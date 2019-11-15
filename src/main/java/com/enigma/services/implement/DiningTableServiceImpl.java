@@ -1,9 +1,7 @@
 package com.enigma.services.implement;
 
 import com.enigma.entities.DiningTable;
-import com.enigma.exceptions.NotAccordingToCapacityException;
-import com.enigma.exceptions.ResultNotFoundException;
-import com.enigma.exceptions.TableIsNotEmptyException;
+import com.enigma.exceptions.*;
 import com.enigma.repositories.DiningTableRepository;
 import com.enigma.services.DiningTableService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,14 +18,17 @@ public class DiningTableServiceImpl implements DiningTableService {
     DiningTableRepository diningTableRepository;
 
     @Override
-    public DiningTable saveDiningTable(DiningTable diningTable) {
-        diningTable.setAvailability(true);
+    public DiningTable createDiningTable(DiningTable diningTable) {
+        validatingNumberDiningTableEmpty(diningTable.getNumberDiningTable());
+        validatingNumberDiningTableIsExist(diningTable.getNumberDiningTable());
+        validatingCapacityIsLessThanOne(diningTable.getCapacity());
+        diningTable.setIsAvailable(true);
         return diningTableRepository.save(diningTable);
     }
 
     @Override
     public DiningTable getDiningTableById(String id) {
-        if (!(diningTableRepository.findById(id).isPresent())) throw new ResultNotFoundException();
+        if (!(diningTableRepository.findById(id).isPresent())) throw new NotFoundException("Number Dining Table with id : " + id + " is not found.");
         return diningTableRepository.findById(id).get();
     }
 
@@ -43,7 +44,10 @@ public class DiningTableServiceImpl implements DiningTableService {
 
     @Override
     public DiningTable updateDiningTable(DiningTable diningTable) {
-        return saveDiningTable(diningTable);
+        validatingNumberDiningTableEmpty(diningTable.getNumberDiningTable());
+        validatingCapacityIsLessThanOne(diningTable.getCapacity());
+        getDiningTableById(diningTable.getIdDiningTable());
+        return diningTableRepository.save(diningTable);
     }
 
     @Override
@@ -55,13 +59,25 @@ public class DiningTableServiceImpl implements DiningTableService {
     @Override
     public void costumerDining(Integer totalCostumer, DiningTable diningTable) {
         if(totalCostumer<=diningTable.getCapacity()){
-            if(diningTable.getAvailability()){
+            if(diningTable.getIsAvailable()){
                 diningTable.costumerEntry();
             }else{
-                throw new TableIsNotEmptyException();
+                throw new ForbiddenException("Sorry, the Table is not Empty");
             }
         }else {
-            throw new NotAccordingToCapacityException();
+            throw new ForbiddenException("Sorry, Total costumer not according to table capacity");
         }
+    }
+
+    private void validatingNumberDiningTableEmpty(String value) {
+        if (value.isEmpty()) throw new BadRequestException("Number dining table can't be empty");
+    }
+
+    private void validatingNumberDiningTableIsExist(String value) {
+        if (diningTableRepository.existsByNumberDiningTable(value)) throw new BadRequestException("Number dining table with number : " + value + " is already exists");
+    }
+
+    private void validatingCapacityIsLessThanOne(Integer value) {
+        if (value < 1) throw new BadRequestException("Capacity can't be less then one");
     }
 }

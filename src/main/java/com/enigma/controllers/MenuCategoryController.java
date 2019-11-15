@@ -14,7 +14,7 @@ public class MenuCategoryController {
     @Autowired
     MenuCategoryService menuCategoryService;
 
-    @GetMapping("/all-menu-category")
+    @GetMapping("/menu-categories")
     public List<MenuCategory> getAllMenuCategory(){
         return menuCategoryService.getAllMenuCategory();
     }
@@ -23,13 +23,19 @@ public class MenuCategoryController {
     public MenuCategory createMenuCategory(@RequestBody MenuCategory menuCategory){
         return menuCategoryService.createMenuCategory(menuCategory);
     }
+
+    @PostMapping("/menu-category")
+    public MenuCategory updateMenuCategory(@RequestBody MenuCategory menuCategory){
+        return menuCategoryService.updateMenuCategory(menuCategory);
+    }
+
+    @GetMapping("/menu-category/{id}")
+    public MenuCategory getMenuCategoryById(@PathVariable String id){
+        return menuCategoryService.getMenuCategoryById(id);
+    }
+
     @DeleteMapping("/menu-category/{id}")
     public void deleteMenuCategoryById(@PathVariable String id){
         menuCategoryService.deleteMenuCategoryById(id);
-    }
-
-    @PostMapping("update/menu-category")
-    public MenuCategory updateMenuCategory(@RequestBody MenuCategory menuCategory){
-        return menuCategoryService.updateMenuCategory(menuCategory);
     }
 }

@@ -3,6 +3,7 @@ package com.enigma.controllers;
 import com.enigma.entities.DiningTable;
 import com.enigma.repositories.DiningTableRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,7 @@ public class DiningTableControllerTest {
     @Autowired
     DiningTableRepository diningTableRepository;
 
+
     private static Pageable pageable = PageRequest.of(0, 10);
 
     private static DiningTable sample1 = new DiningTable("A01",2);
@@ -55,7 +57,7 @@ public class DiningTableControllerTest {
     public void saveDiningTable_shouldExistInDb() throws Exception {
         String response = mockMvc.perform(put("/dining-table")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(sample1))).andReturn().getResponse().getContentAsString();
+                .content(objectMapper.writeValueAsString(sample2))).andReturn().getResponse().getContentAsString();
 
         DiningTable expected = new ObjectMapper().readValue(response, DiningTable.class);
 

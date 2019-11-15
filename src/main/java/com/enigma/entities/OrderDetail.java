@@ -27,13 +27,35 @@ public class OrderDetail {
 
     @ManyToOne
     @JoinColumn(name = "id_menu")
-    private Menu idMenu;
+    private Menu menu;
 
     @Transient
-    private String idMenuTransient;
+    private String idMenu;
 
-    private Integer quantity;
-    private String description;
+    private Integer amount;
     private BigDecimal subTotalPrice;
+
+    public OrderDetail(String idMenu, Integer amount) {
+        this.idMenu = idMenu;
+        this.amount = amount;
+    }
+
+    public String getIdMenu() {
+        if (getMenu() != null) setIdMenu(getMenu().getIdMenu());
+        return idMenu;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OrderDetail that = (OrderDetail) o;
+        return Objects.equals(idOrderDetail, that.idOrderDetail) &&
+                Objects.equals(idOrder, that.idOrder) &&
+                Objects.equals(menu, that.menu) &&
+                Objects.equals(idMenu, that.idMenu) &&
+                Objects.equals(amount, that.amount) &&
+                subTotalPrice.compareTo(that.getSubTotalPrice())==0;
+    }
 
 }

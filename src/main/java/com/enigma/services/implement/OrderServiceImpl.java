@@ -1,8 +1,8 @@
 package com.enigma.services.implement;
 
 import com.enigma.entities.*;
-import com.enigma.exceptions.InputCanNotBeEmptyException;
-import com.enigma.exceptions.PaymentUnsuccessfulException;
+import com.enigma.exceptions.ForbiddenException;
+import com.enigma.exceptions.NotFoundException;
 import com.enigma.repositories.OrderRepository;
 import com.enigma.services.DiningTableService;
 import com.enigma.services.MenuService;
@@ -22,11 +22,13 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     DiningTableService diningTableService;
+
     @Autowired
     MenuService menuService;
 
     @Override
     public Order ordering(Order order) {
+        if (order.getOrderDetails().isEmpty()) throw new ForbiddenException("Menu is empty, please select menu");
         DiningTable diningTable = diningTableService.getDiningTableById(order.getIdDiningTable());
         order.setDiningTable(diningTable);
         diningTableService.costumerDining(order.getTotalCostumer(), diningTable);
@@ -40,10 +42,10 @@ public class OrderServiceImpl implements OrderService {
     private BigDecimal getTotalPrice(Order order) {
         BigDecimal totalPrice = new BigDecimal(0);
         for(OrderDetail orderDetail: order.getOrderDetails()){
-            Menu menu = menuService.getMenuById(orderDetail.getIdMenuTransient());
+            Menu menu = menuService.getMenuById(orderDetail.getIdMenu());
             orderDetail.setIdOrder(order);
-            orderDetail.setIdMenu(menu);
-            orderDetail.setSubTotalPrice(menu.getPrice().multiply(new BigDecimal(orderDetail.getQuantity())));
+            orderDetail.setMenu(menu);
+            orderDetail.setSubTotalPrice(menu.getPrice().multiply(new BigDecimal(orderDetail.getAmount())));
             totalPrice = totalPrice.add(orderDetail.getSubTotalPrice());
         }
         return totalPrice;
@@ -51,6 +53,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order getOrderById(String id) {
+        if (!(orderRepository.findById(id).isPresent())) throw new NotFoundException("Order with id : " + id + " is not found.");
         return orderRepository.findById(id).get();
     }
 
@@ -61,7 +64,7 @@ public class OrderServiceImpl implements OrderService {
         diningTable.costumerOut();
         willBePaidOrder.setPayment(payment.getPay());
         if(willBePaidOrder.getPayment().compareTo(willBePaidOrder.getTotalPrice()) < 0){
-            throw new PaymentUnsuccessfulException();
+            throw new ForbiddenException("Sorry, the money you entered is not enough.");
         }
         willBePaidOrder.setChange(willBePaidOrder.getPayment().subtract(willBePaidOrder.getTotalPrice()));
         return orderRepository.save(willBePaidOrder);
@@ -70,5 +73,10 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> getListOfOrder() {
         return orderRepository.findAll();
+    }
+
+    @Override
+    public List<Order> getUnpaidOrder() {
+        return orderRepository.findAllByPaymentIsNull();
     }
 }

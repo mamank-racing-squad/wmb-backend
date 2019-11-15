@@ -7,10 +7,10 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "trx_order")
@@ -27,27 +27,51 @@ public class Order {
     private LocalDateTime createAt;
 
     private BigDecimal payment;
+    private String description;
     private BigDecimal change;
 
     @ManyToOne
     @JoinColumn(name = "id_dining_table")
     private DiningTable diningTable;
 
-    @OneToMany(mappedBy = "idOrder", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "idOrder", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<OrderDetail> orderDetails = new ArrayList<>();
 
     @Transient
     private String idDiningTable;
 
-    public Order(String costumerName, Integer totalCostumer, BigDecimal totalPrice, LocalDateTime createAt, BigDecimal payment, BigDecimal change, DiningTable diningTable, List<OrderDetail> orderDetails, String idDiningTable) {
+    public Order(String costumerName, Integer totalCostumer, LocalDateTime createAt, BigDecimal payment, BigDecimal change, List<OrderDetail> orderDetails, String idDiningTable, String description) {
         this.costumerName = costumerName;
         this.totalCostumer = totalCostumer;
-        this.totalPrice = totalPrice;
         this.createAt = createAt;
         this.payment = payment;
         this.change = change;
-        this.diningTable = diningTable;
         this.orderDetails = orderDetails;
         this.idDiningTable = idDiningTable;
+        this.description = description;
     }
+
+    public String getIdDiningTable() {
+        if (this.getDiningTable() != null) setIdDiningTable(getDiningTable().getIdDiningTable());
+        return idDiningTable;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Order order = (Order) o;
+        return Objects.equals(idOrder, order.idOrder) &&
+                Objects.equals(costumerName, order.costumerName) &&
+                Objects.equals(totalCostumer, order.totalCostumer) &&
+                totalPrice.compareTo(order.getTotalPrice())==0 &&
+                Objects.equals(createAt, order.createAt) &&
+                payment.compareTo(order.getPayment())==0 &&
+                change.compareTo(order.getChange())==0 &&
+                Objects.equals(description, order.description);
+//                &&
+//                Objects.equals(diningTable, order.diningTable) &&
+//                Objects.equals(orderDetails, order.orderDetails);
+    }
+
 }

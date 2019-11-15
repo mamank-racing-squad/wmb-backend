@@ -46,10 +46,9 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public Menu createMenuWithImage(String menuInput, MultipartFile image) throws IOException {
-        Menu menu = objectMapper.readValue(menuInput, Menu.class);
-        if(menu.getPrice().equals(new BigDecimal(0))) throw new ForbiddenException("Wrooong Input");
+    public Menu createMenu(Menu menu) {
         validatingMenuNameIsExist(menu.getMenuName());
+        if(menu.getPrice().equals(new BigDecimal(0))) throw new ForbiddenException("Wrooong Input");
         validatingMenuNameEmpty(menu.getMenuName());
         validatingPriceEmpty(menu.getPrice());
         validatingAvailabilityEmpty(menu.getIsAvailable());

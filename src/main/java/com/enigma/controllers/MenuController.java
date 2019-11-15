@@ -1,6 +1,8 @@
 package com.enigma.controllers;
 
 import com.enigma.entities.Menu;
+import com.enigma.exceptions.BadRequestException;
+import com.enigma.exceptions.NotFoundException;
 import com.enigma.services.MenuService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,18 +18,23 @@ import java.util.List;
 @RestController
 @CrossOrigin
 public class MenuController {
+
     @Autowired
     MenuService menuService;
 
-
     @PutMapping("/menu")
-    public Menu createMenu(@RequestBody Menu menu){
-        return menuService.createMenu(menu);
+    public Menu createMenuWithImage(@RequestPart MultipartFile image, String menuInput) throws IOException {
+        if(!image.isEmpty()){
+            return menuService.createMenuWithImage(menuInput, image);
+
+        }else {
+            throw new BadRequestException("upload image dong!");
+        }
     }
 
-    @PutMapping("/menu/upload")
-    public Menu createMenuWithImage(@RequestPart MultipartFile image, String menuInput) throws IOException {
-        return menuService.createMenuWithImage(menuInput, image);
+    @PostMapping("/menu")
+    public Menu createMenuWithImageEdit(@RequestPart MultipartFile image, String menuInput) throws IOException {
+        return menuService.updateMenuWithImage(menuInput, image);
     }
 
     @GetMapping("/menu/{id}")
@@ -35,7 +42,7 @@ public class MenuController {
         return menuService.getMenuById(id);
     }
 
-    @GetMapping("/list-menu")
+    @GetMapping("/menus")
     public List<Menu> getAllMenu(){
         return menuService.getAllMenu();
     }
@@ -44,10 +51,4 @@ public class MenuController {
     public void deleteMenu(@PathVariable String id){
         menuService.deleteMenuById(id);
     }
-
-    @PostMapping("/menu")
-    public Menu updateMenu(@RequestBody Menu menu){
-        return menuService.updateMenu(menu);
-    }
-
 }

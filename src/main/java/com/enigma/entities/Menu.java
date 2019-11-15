@@ -21,19 +21,37 @@ public class Menu {
 
     private String menuName;
     private BigDecimal price;
-    private Boolean availability;
+    private Boolean isAvailable;
 
     @ManyToOne
     @JoinColumn(name = "id_menu_category")
     private MenuCategory menuCategory;
 
     @Transient
-    private String idMenuCategoryTransient;
+    private String idMenuCategory;
 
-    public Menu(String menuName, BigDecimal price, Boolean availability) {
+    public Menu(String menuName, BigDecimal price, Boolean isAvailable, String idMenuCategory) {
         this.menuName = menuName;
         this.price = price;
-        this.availability = availability;
+        this.isAvailable = isAvailable;
+        this.idMenuCategory = idMenuCategory;
+    }
+
+    public Menu(String menuName, Boolean isAvailable, String idMenuCategory) {
+        this.menuName = menuName;
+        this.isAvailable = isAvailable;
+        this.idMenuCategory = idMenuCategory;
+    }
+
+    public Menu(String menuName, BigDecimal price, String idMenuCategory) {
+        this.menuName = menuName;
+        this.price = price;
+        this.idMenuCategory = idMenuCategory;
+    }
+
+    public String getIdMenuCategory() {
+        if (this.getMenuCategory() != null) setIdMenuCategory(getMenuCategory().getIdMenuCategory());
+        return idMenuCategory;
     }
 
     @Override
@@ -44,11 +62,7 @@ public class Menu {
         return Objects.equals(idMenu, menu.idMenu) &&
                 Objects.equals(menuName, menu.menuName) &&
                 price.compareTo(menu.getPrice())==0 &&
-                Objects.equals(availability, menu.availability);
+                Objects.equals(isAvailable, menu.isAvailable);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(idMenu, menuName, price, availability);
-    }
 }

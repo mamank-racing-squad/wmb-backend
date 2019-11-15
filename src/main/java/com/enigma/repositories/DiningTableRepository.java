@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface DiningTableRepository extends JpaRepository<DiningTable, String> {
+    Boolean existsByNumberDiningTable(String likePattern);
 }

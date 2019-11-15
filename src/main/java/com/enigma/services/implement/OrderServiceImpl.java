@@ -29,6 +29,9 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order ordering(Order order) {
         if (order.getOrderDetails().isEmpty()) throw new ForbiddenException("Menu is empty, please select menu");
+        if (order.getCostumerName().isEmpty()) throw new ForbiddenException("Please input PIC Name");
+        if (order.getTotalCostumer().equals(0)) throw new ForbiddenException("Please input total Costumer");
+
         DiningTable diningTable = diningTableService.getDiningTableById(order.getIdDiningTable());
         order.setDiningTable(diningTable);
         diningTableService.costumerDining(order.getTotalCostumer(), diningTable);

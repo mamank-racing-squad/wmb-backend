@@ -23,15 +23,21 @@ public class MenuController {
     MenuService menuService;
 
     @PutMapping("/menu")
-    public Menu createMenuWithImage(@RequestPart MultipartFile image, String menuInput) throws IOException {
-        if(!image.isEmpty()){
-            return menuService.createMenuWithImage(menuInput, image);
-        }else {
-            throw new BadRequestException("upload image!");
-        }
+    public Menu createMenu(@RequestBody Menu menu){
+        return menuService.createMenu(menu);
     }
 
     @PostMapping("/menu")
+    public Menu updateMenu(@RequestBody Menu menu){
+        return menuService.updateMenu(menu);
+    }
+
+    @PutMapping("/menu/upload")
+    public Menu createMenuWithImage(@RequestPart MultipartFile image, String menuInput) throws IOException {
+        return menuService.createMenuWithImage(menuInput, image);
+    }
+
+    @PostMapping("/menu/upload")
     public Menu createMenuWithImageEdit(@RequestPart MultipartFile image, String menuInput) throws IOException {
         return menuService.updateMenuWithImage(menuInput, image);
     }

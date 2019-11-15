@@ -28,7 +28,7 @@ public class MenuController {
             return menuService.createMenuWithImage(menuInput, image);
 
         }else {
-            throw new BadRequestException("upload image dong!");
+            throw new BadRequestException("upload image!");
         }
     }
 

@@ -26,7 +26,6 @@ public class MenuController {
     public Menu createMenuWithImage(@RequestPart MultipartFile image, String menuInput) throws IOException {
         if(!image.isEmpty()){
             return menuService.createMenuWithImage(menuInput, image);
-
         }else {
             throw new BadRequestException("upload image!");
         }

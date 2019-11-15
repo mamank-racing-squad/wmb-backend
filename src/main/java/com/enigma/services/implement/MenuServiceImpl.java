@@ -2,6 +2,7 @@ package com.enigma.services.implement;
 
 import com.enigma.entities.Menu;
 import com.enigma.exceptions.BadRequestException;
+import com.enigma.exceptions.ForbiddenException;
 import com.enigma.exceptions.NotFoundException;
 import com.enigma.repositories.MenuRepository;
 import com.enigma.services.FileService;
@@ -46,6 +47,7 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public Menu createMenuWithImage(String menuInput, MultipartFile image) throws IOException {
         Menu menu = objectMapper.readValue(menuInput, Menu.class);
+        if(menu.getPrice().equals(new BigDecimal(0))) throw new ForbiddenException("Wrooong Input");
         validatingMenuNameIsExist(menu.getMenuName());
         validatingMenuNameEmpty(menu.getMenuName());
         validatingPriceEmpty(menu.getPrice());

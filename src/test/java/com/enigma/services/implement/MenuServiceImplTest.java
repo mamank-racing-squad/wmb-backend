@@ -102,6 +102,26 @@ public class MenuServiceImplTest {
     }
 
     @Test
+    public void createMenu_should_return_Menu_when_inputMenu() {
+        MenuCategory newMenuCategory = menuCategoryService.createMenuCategory(menuCategory);
+        Menu menu = new Menu("Ikan Bakar", new BigDecimal(50000), true, newMenuCategory.getIdMenuCategory() );
+        menu = menuService.createMenu(menu);
+        Menu expected = menuRepository.findById(menu.getIdMenu()).get();
+        assertEquals(expected, menu);
+    }
+
+    @Test
+    public void updateMenu_should_return_new_Menu_when_Data_Updated() {
+        MenuCategory newMenuCategory = menuCategoryService.createMenuCategory(menuCategory);
+        Menu menu = new Menu("Ikan Bakar", new BigDecimal(50000), true, newMenuCategory.getIdMenuCategory() );
+        menu = menuService.createMenu(menu);
+        Menu edited = menu;
+        edited.setMenuName("Ayam Bakar");
+        menuService.updateMenu(edited);
+        assertEquals(edited, menuRepository.findById(menu.getIdMenu()).get());
+    }
+
+    @Test
     public void updateMenuWithImage_should_return_menu_and_image_ExistOnServer() throws IOException {
         menuCategory = menuCategoryService.createMenuCategory(menuCategory);
         File file = new File("E:\\mini-project-enigma-2019\\wmb-backend\\src\\test\\java\\com\\enigma\\services\\implement\\soto.jpg");

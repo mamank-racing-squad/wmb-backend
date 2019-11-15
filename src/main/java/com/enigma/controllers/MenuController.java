@@ -1,6 +1,8 @@
 package com.enigma.controllers;
 
 import com.enigma.entities.Menu;
+import com.enigma.exceptions.BadRequestException;
+import com.enigma.exceptions.NotFoundException;
 import com.enigma.services.MenuService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,7 +24,12 @@ public class MenuController {
 
     @PutMapping("/menu")
     public Menu createMenuWithImage(@RequestPart MultipartFile image, String menuInput) throws IOException {
-        return menuService.createMenuWithImage(menuInput, image);
+        if(!image.isEmpty()){
+            return menuService.createMenuWithImage(menuInput, image);
+
+        }else {
+            throw new BadRequestException("upload image dong!");
+        }
     }
 
     @PostMapping("/menu")

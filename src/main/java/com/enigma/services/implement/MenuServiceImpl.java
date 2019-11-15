@@ -7,6 +7,7 @@ import com.enigma.repositories.MenuRepository;
 import com.enigma.services.FileService;
 import com.enigma.services.MenuCategoryService;
 import com.enigma.services.MenuService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

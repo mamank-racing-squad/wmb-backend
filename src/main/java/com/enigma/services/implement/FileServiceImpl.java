@@ -1,5 +1,6 @@
 package com.enigma.services.implement;
 
+import com.enigma.exceptions.NotFoundException;
 import com.enigma.services.FileService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;

@@ -12,4 +12,6 @@ public interface MenuService {
     Menu createMenuWithImage(String menuInput, MultipartFile image) throws IOException;
     void deleteMenuById(String id);
     Menu updateMenuWithImage(String menuInput, MultipartFile image) throws IOException;
+    Menu createMenu(Menu menu);
+    Menu updateMenu(Menu menu);
 }

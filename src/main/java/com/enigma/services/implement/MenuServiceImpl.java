@@ -47,20 +47,6 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public Menu createMenuWithImage(String menuInput, MultipartFile image) throws IOException {
-        Menu menu = objectMapper.readValue(menuInput, Menu.class);
-        if(menu.getPrice().equals(new BigDecimal(0))) throw new ForbiddenException("Wrooong Input");
-        validatingMenuNameIsExist(menu.getMenuName());
-        validatingMenuNameEmpty(menu.getMenuName());
-        validatingPriceEmpty(menu.getPrice());
-        validatingAvailabilityEmpty(menu.getIsAvailable());
-        validatingMenuCategoryEmpty(menu.getIdMenuCategory());
-        MenuCategory menuCategory = menuCategoryService.getMenuCategoryById(menu.getIdMenuCategory());
-        menu.setMenuCategory(menuCategory);
-        return menuRepository.save(menu);
-    }
-
-    @Override
-    public Menu createMenuWithImage(String menuInput, MultipartFile image) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 
         Menu menu = objectMapper.readValue(menuInput, Menu.class);
@@ -80,6 +66,7 @@ public class MenuServiceImpl implements MenuService {
         Menu menu = menuRepository.save(objectMapper.readValue(menuInput, Menu.class));
         validatingMenuNameEmpty(menu.getMenuName());
         validatingPriceEmpty(menu.getPrice());
+        if(menu.getPrice().equals(new BigDecimal(0))) throw new ForbiddenException("Wrooong Input");
         validatingAvailabilityEmpty(menu.getIsAvailable());
         validatingMenuCategoryEmpty(menu.getIdMenuCategory());
         fileService.saveFile(image, menu.getIdMenu());
@@ -87,9 +74,15 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
+    public Menu createMenu(Menu menu) {
+        return null;
+    }
+
+    @Override
     public Menu updateMenu(Menu menu) {
         validatingMenuNameEmpty(menu.getMenuName());
         validatingPriceEmpty(menu.getPrice());
+        if(menu.getPrice().equals(new BigDecimal(0))) throw new ForbiddenException("Wrooong Input");
         validatingAvailabilityEmpty(menu.getIsAvailable());
         validatingMenuCategoryEmpty(menu.getIdMenuCategory());
         return menuRepository.save(menu);

@@ -96,7 +96,7 @@ public class MenuServiceImplTest {
         ObjectMapper objectMapper = new ObjectMapper();
         String menuInput = objectMapper.writeValueAsString(menu);
         Menu menuWithImage = menuService.createMenuWithImage(menuInput, image);
-        FileReader fileReader = new FileReader("C:/nginx-1.16.1/html/menu-image/"+menuWithImage.getIdMenu()+".jpg");
+        FileReader fileReader = new FileReader("E:/nginx-1.16.1/html/menu-image/"+menuWithImage.getIdMenu()+".jpg");
         assertEquals(menuWithImage, menuRepository.findById(menuWithImage.getIdMenu()).get());
         assertFalse(fileReader.getEncoding().isEmpty());
     }

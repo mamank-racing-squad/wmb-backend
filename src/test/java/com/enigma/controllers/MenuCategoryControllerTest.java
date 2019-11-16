@@ -62,7 +62,7 @@ class MenuCategoryControllerTest {
         mockMvc.perform(get("/menu-category/{id}", sample1.getIdMenuCategory())
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.idMenuCategory").value(sample1.getIdMenuCategory()));
+                .andExpect(jsonPath("$.idMen-uCategory").value(sample1.getIdMenuCategory()));
     }
 
     @Test

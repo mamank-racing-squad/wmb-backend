@@ -32,6 +32,7 @@ class MenuCategoryServiceImplTest {
     @Before
     public void cleanUp(){
         menuCategoryRepository.deleteAll();
+        menuRepository.deleteAll();
     }
     @Test
     void getAllMenuCategory() {

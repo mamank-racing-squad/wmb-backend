@@ -82,6 +82,7 @@ public class DiningTableControllerTest {
 
     @Test
     public void getAllDiningTable() {
+
     }
 
     @Test

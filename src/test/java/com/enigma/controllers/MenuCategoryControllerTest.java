@@ -3,6 +3,8 @@ package com.enigma.controllers;
 import com.enigma.entities.MenuCategory;
 import com.enigma.repositories.MenuCategoryRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,16 @@ class MenuCategoryControllerTest {
 
     @Autowired
     MenuCategoryRepository menuCategoryRepository;
+
+    @BeforeEach
+    public void cleanUp(){
+        menuCategoryRepository.deleteAll();
+    }
+
+    @AfterEach
+    public void cleanUpAgain(){
+        menuCategoryRepository.deleteAll();
+    }
 
     private static MenuCategory sample1 = new MenuCategory("Drinks");
     private static MenuCategory sample2 = new MenuCategory("Foods");

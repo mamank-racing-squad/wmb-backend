@@ -9,6 +9,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,12 +45,14 @@ class MenuControllerTest {
     @Autowired
     MenuRepository menuRepository;
 
-    MenuCategory menuCategory = new MenuCategory("Foods");
+    @Autowired
+    MenuCategoryRepository menuCategoryRepository;
 
+    MenuCategory menuCategory = new MenuCategory("Foods");
     @Test
     void saveMenu_should_return_OKStatus() throws Exception {
         MenuCategory newMenuCategory = menuCategoryService.createMenuCategory(menuCategory);
-        Menu sample1 = new Menu("Ikan Bakar", new BigDecimal(50000), true, newMenuCategory.getIdMenuCategory() );
+        Menu sample1 = new Menu("Ikan Bakar", new BigDecimal(50000), newMenuCategory.getIdMenuCategory() );
 
         mockMvc.perform(put("/menu")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -59,7 +63,7 @@ class MenuControllerTest {
     @Test
     void  saveMenu_shouldExistInDb() throws Exception {
         MenuCategory newMenuCategory = menuCategoryService.createMenuCategory(menuCategory);
-        Menu sample1 = new Menu("Ikan Bakar", new BigDecimal(50000), true, newMenuCategory.getIdMenuCategory() );
+        Menu sample1 = new Menu("Ikan Bakar", new BigDecimal(50000), newMenuCategory.getIdMenuCategory() );
         String response = mockMvc.perform(put("/menu")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(sample1))).andReturn().getResponse().getContentAsString();
@@ -72,7 +76,7 @@ class MenuControllerTest {
     @Test
     void getMenuCategoryById_Should_ReturnOkStatus() throws Exception {
         MenuCategory newMenuCategory = menuCategoryService.createMenuCategory(menuCategory);
-        Menu sample1 = new Menu("Ikan Bakar", new BigDecimal(50000), true, newMenuCategory.getIdMenuCategory() );
+        Menu sample1 = new Menu("Ikan Bakar", new BigDecimal(50000), newMenuCategory.getIdMenuCategory() );
         menuRepository.save(sample1);
 
         mockMvc.perform(get("/menu/{id}", sample1.getIdMenu())

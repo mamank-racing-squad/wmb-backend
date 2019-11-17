@@ -32,12 +32,12 @@ public class MenuController {
         return menuService.updateMenu(menu);
     }
 
-    @PutMapping("/menu/upload")
+    @PutMapping("/menu/image")
     public Menu createMenuWithImage(@RequestPart MultipartFile image, String menuInput) throws IOException {
         return menuService.createMenuWithImage(menuInput, image);
     }
 
-    @PostMapping("/menu/upload")
+    @PostMapping("/menu/image")
     public Menu createMenuWithImageEdit(@RequestPart MultipartFile image, String menuInput) throws IOException {
         return menuService.updateMenuWithImage(menuInput, image);
     }

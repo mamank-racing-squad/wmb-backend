@@ -1,11 +1,13 @@
 package com.enigma.services.implement;
 
 import com.enigma.entities.DiningTable;
+import com.enigma.exceptions.NotFoundException;
 import com.enigma.repositories.DiningTableRepository;
 import com.enigma.services.DiningTableService;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -35,8 +37,8 @@ public class DiningTableServiceImplTest {
 
     private static Pageable pageable = PageRequest.of(0, 10);
 
-    private static DiningTable sample1 = new DiningTable("A01", 2);
-    private static DiningTable sample2 = new DiningTable("A02", 4);
+    private static DiningTable sample1 = new DiningTable("B01", 2);
+    private static DiningTable sample2 = new DiningTable("B02", 4);
 
     // Happy Test save dining table :)
 
@@ -56,7 +58,11 @@ public class DiningTableServiceImplTest {
         DiningTable result = diningTableRepository.findById(sampleDiningTable.getIdDiningTable()).get();
 
         assertEquals(expected, result);
+    }
 
+    @Test
+    public void getDiningTableById_should_return_NotFoundException_when_not_found() {
+        Assertions.assertThrows(NotFoundException.class, () -> diningTableService.getDiningTableById("1dy4n9t1d4ck4d4"));
     }
 
     @Test

@@ -49,7 +49,7 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public Menu createMenu(Menu menu) {
         validatingMenuNameIsExist(menu.getMenuName());
-        if (menu.getPrice().equals(new BigDecimal(0))) throw new ForbiddenException("Wrooong Input");
+        if(menu.getPrice().equals(new BigDecimal(0))) throw new ForbiddenException("Price can not be zero");
         validatingMenuNameEmpty(menu.getMenuName());
         validatingPriceEmpty(menu.getPrice());
         validatingMenuCategoryEmpty(menu.getIdMenuCategory());
@@ -86,6 +86,7 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public Menu updateMenu(Menu menu) {
+        if(menu.getPrice().equals(new BigDecimal(0))) throw new ForbiddenException("Price can not be zero");
         validatingMenuNameEmpty(menu.getMenuName());
         validatingPriceEmpty(menu.getPrice());
         validatingMenuCategoryEmpty(menu.getIdMenuCategory());
@@ -106,9 +107,6 @@ public class MenuServiceImpl implements MenuService {
         if (value == null) throw new BadRequestException("Menu price can't be empty");
     }
 
-    private void validatingAvailabilityEmpty(Boolean value) {
-        if (value == null) throw new BadRequestException("Menu availability can't be empty");
-    }
 
     private void validatingMenuCategoryEmpty(String value) {
         if (value.isEmpty()) throw new BadRequestException("Menu Category can't be empty");

@@ -2,11 +2,15 @@ package com.enigma.services.implement;
 
 import com.enigma.entities.MenuCategory;
 import com.enigma.exceptions.BadRequestException;
+import com.enigma.exceptions.NotFoundException;
 import com.enigma.repositories.MenuCategoryRepository;
 import com.enigma.repositories.MenuRepository;
 import com.enigma.services.MenuCategoryService;
+import org.junit.After;
 import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +35,13 @@ class MenuCategoryServiceImplTest {
     MenuRepository menuRepository;
     @Before
     public void cleanUp(){
+        menuRepository.deleteAll();
+        menuCategoryRepository.deleteAll();
+
+    }
+    @After
+    public void cleanUpAgain(){
+        menuRepository.deleteAll();
         menuCategoryRepository.deleteAll();
     }
     @Test
@@ -41,7 +52,10 @@ class MenuCategoryServiceImplTest {
         menuCategoryRepository.save(menuCategory2);
         Assertions.assertEquals(2, menuCategoryService.getAllMenuCategory().size());
     }
-
+    @Test
+    public void getMenuCategoryById_should_return_NotFoundException_when_not_found() {
+        Assertions.assertThrows(NotFoundException.class, () -> menuCategoryService.getMenuCategoryById("1dy4n9t1d4ck4d4"));
+    }
 
     @Test
     public void getAllMenuCategory_should_return_false_when_Input_DataExist() {
@@ -70,9 +84,9 @@ class MenuCategoryServiceImplTest {
 
     @Test
     public void deleteMenuCategoryById() {
-//        MenuCategory menuCategory = new MenuCategory("Drinks");
-//        menuCategory = menuCategoryService.createMenuCategory(menuCategory);
-//        menuCategoryService.deleteMenuCategoryById(menuCategory.getIdMenuCategory());
+        MenuCategory menuCategory = new MenuCategory("Drinks");
+        menuCategory = menuCategoryService.createMenuCategory(menuCategory);
+        menuCategoryService.deleteMenuCategoryById(menuCategory.getIdMenuCategory());
         assertEquals(0, menuCategoryRepository.findAll().size());
     }
 

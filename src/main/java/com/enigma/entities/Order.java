@@ -14,7 +14,9 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "trx_order")
-@NoArgsConstructor @Getter @Setter
+@NoArgsConstructor
+@Getter
+@Setter
 public class Order {
     @Id
     @GeneratedValue(generator = "system-uuid")
@@ -25,10 +27,9 @@ public class Order {
     private Integer totalCostumer;
     private BigDecimal totalPrice;
     private LocalDateTime createAt;
-
-    private BigDecimal payment;
     private String description;
-    private BigDecimal change;
+
+    private Boolean isPaid;
 
     @ManyToOne
     @JoinColumn(name = "id_dining_table")
@@ -40,20 +41,27 @@ public class Order {
     @Transient
     private String idDiningTable;
 
-    public Order(String costumerName, Integer totalCostumer, LocalDateTime createAt, BigDecimal payment, BigDecimal change, List<OrderDetail> orderDetails, String idDiningTable, String description) {
+    public Order(String costumerName, Integer totalCostumer, LocalDateTime createAt, List<OrderDetail> orderDetails, String idDiningTable, String description, Boolean isPaid) {
         this.costumerName = costumerName;
         this.totalCostumer = totalCostumer;
         this.createAt = createAt;
-        this.payment = payment;
-        this.change = change;
         this.orderDetails = orderDetails;
         this.idDiningTable = idDiningTable;
         this.description = description;
+        this.isPaid = isPaid;
     }
 
     public String getIdDiningTable() {
         if (this.getDiningTable() != null) setIdDiningTable(getDiningTable().getIdDiningTable());
         return idDiningTable;
+    }
+
+    public void dining() {
+        this.isPaid = false;
+    }
+
+    public void paid() {
+        this.isPaid = true;
     }
 
     @Override
@@ -64,14 +72,10 @@ public class Order {
         return Objects.equals(idOrder, order.idOrder) &&
                 Objects.equals(costumerName, order.costumerName) &&
                 Objects.equals(totalCostumer, order.totalCostumer) &&
-                totalPrice.compareTo(order.getTotalPrice())==0 &&
+                totalPrice.compareTo(order.getTotalPrice()) == 0 &&
                 Objects.equals(createAt, order.createAt) &&
-                payment.compareTo(order.getPayment())==0 &&
-                change.compareTo(order.getChange())==0 &&
                 Objects.equals(description, order.description);
-//                &&
-//                Objects.equals(diningTable, order.diningTable) &&
-//                Objects.equals(orderDetails, order.orderDetails);
     }
+
 
 }

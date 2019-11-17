@@ -1,11 +1,14 @@
 package com.enigma.controllers;
 
 import com.enigma.entities.*;
+import com.enigma.repositories.MenuCategoryRepository;
+import com.enigma.repositories.MenuRepository;
 import com.enigma.repositories.OrderRepository;
 import com.enigma.services.DiningTableService;
 import com.enigma.services.MenuCategoryService;
 import com.enigma.services.MenuService;
 import com.enigma.services.OrderService;
+import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,17 +49,27 @@ class OrderControllerTest {
 
     @Autowired
     MenuCategoryService menuCategoryService;
+    @Autowired
+    MenuRepository menuRepository;
+    @Autowired
+    MenuCategoryRepository menuCategoryRepository;
+    @Before
+    public void cleanUp(){
+        menuRepository.deleteAll();
+        menuCategoryRepository.deleteAll();
+        orderRepository.deleteAll();
+    }
 
-//    public List<OrderDetail> initiateOrderDetails() {
-//        MenuCategory menuCategory = new MenuCategory("Foods");
-//        MenuCategory newMenuCategory = menuCategoryService.createMenuCategory(menuCategory);
-//        Menu menu1 = new Menu("Ikan Bakar", new BigDecimal(50000), true, newMenuCategory.getIdMenuCategory());
-//        menu1 = menuService.createMenu(menu1);
-//        List<OrderDetail> orderDetails = new ArrayList<>();
-//        OrderDetail orderDetail = new OrderDetail(menu1.getIdMenu(),2,"pedas banget");
-//        orderDetails.add(orderDetail);
-//        return orderDetails;
-//    }
+    public List<OrderDetail> initiateOrderDetails() {
+        MenuCategory menuCategory = new MenuCategory("Foods");
+        MenuCategory newMenuCategory = menuCategoryService.createMenuCategory(menuCategory);
+        Menu menu1 = new Menu("Ikan Bakar", new BigDecimal(50000), newMenuCategory.getIdMenuCategory());
+        menu1 = menuService.createMenu(menu1);
+        List<OrderDetail> orderDetails = new ArrayList<>();
+        OrderDetail orderDetail = new OrderDetail(menu1.getIdMenu(),2);
+        orderDetails.add(orderDetail);
+        return orderDetails;
+    }
 
     public DiningTable saveTable(){
         DiningTable diningTable = new DiningTable("A02", 2);
@@ -64,16 +77,16 @@ class OrderControllerTest {
     }
 
     private LocalDateTime localDateTime = LocalDateTime.now();
-//    @Test
-//    void getOrderById_should_returnTrue_Order_when_Found() throws Exception {
-//        Order order1 = new Order("Dadang", 2, localDateTime, new BigDecimal(0), new BigDecimal(0), initiateOrderDetails(), saveTable().getIdDiningTable());
-//        orderRepository.save(order1);
-//
-//        mockMvc.perform(get("/payment/{id}", order1.getIdOrder())
-//                .contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.idOrder").value(order1.getIdOrder()));
-//    }
+    @Test
+    void getOrderById_should_returnTrue_Order_when_Found() throws Exception {
+        Order order1 = new Order("Dadang", 2, localDateTime, initiateOrderDetails(), saveTable().getIdDiningTable(), "", false);
+        orderRepository.save(order1);
+
+        mockMvc.perform(get("/order/{id}", order1.getIdOrder())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.idOrder").value(order1.getIdOrder()));
+    }
 
     @Test
     void payment() {

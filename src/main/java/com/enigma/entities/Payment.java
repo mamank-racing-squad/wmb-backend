@@ -28,9 +28,8 @@ public class Payment {
     @OneToOne
     private Order order;
 
-    public Payment(BigDecimal pay, BigDecimal change, String idOrder) {
+    public Payment(BigDecimal pay, String idOrder) {
         this.pay = pay;
-        this.change = change;
         this.idOrder = idOrder;
     }
 
@@ -41,8 +40,7 @@ public class Payment {
         Payment payment = (Payment) o;
         return Objects.equals(idPayment, payment.idPayment) &&
                 pay.compareTo(payment.getPay())==0 &&
-                pay.compareTo(payment.getChange())==0 &&
-                Objects.equals(idOrder, payment.idOrder);
+                change.compareTo(payment.getChange())==0;
     }
 
 }

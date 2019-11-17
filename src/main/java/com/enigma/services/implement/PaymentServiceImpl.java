@@ -4,6 +4,7 @@ import com.enigma.entities.DiningTable;
 import com.enigma.entities.Order;
 import com.enigma.entities.Payment;
 import com.enigma.exceptions.ForbiddenException;
+import com.enigma.exceptions.NotFoundException;
 import com.enigma.repositories.PaymentRepository;
 import com.enigma.services.OrderService;
 import com.enigma.services.PaymentService;
@@ -37,6 +38,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public Payment getPaymentById(String id) {
+        if (!(paymentRepository.findById(id).isPresent())) throw new NotFoundException("Payment with id : " + id + " is not found.");
         return paymentRepository.findById(id).get();
     }
 

@@ -2,6 +2,7 @@ package com.enigma.services.implement;
 
 import com.enigma.entities.*;
 import com.enigma.exceptions.ForbiddenException;
+import com.enigma.exceptions.NotFoundException;
 import com.enigma.repositories.*;
 import com.enigma.services.DiningTableService;
 import com.enigma.services.MenuCategoryService;
@@ -96,6 +97,11 @@ public class OrderServiceImplTest {
     }
 
     @Test
+    public void getOrderById_should_return_NotFoundException_when_not_Found() {
+        Assertions.assertThrows(NotFoundException.class, () -> {orderService.getOrderById("1dy4n9t1d4ck4d4");});
+    }
+
+    @Test
     public void ordering_should_return_Order_when_Ordering() {
         DiningTable diningTable = diningTableService.createDiningTable(table1);
         Order order1 = new Order("Dadang",2, localDateTime, initiateOrderDetails(), diningTable.getIdDiningTable(), "nothing", false);
@@ -133,4 +139,13 @@ public class OrderServiceImplTest {
         Order order1 = new Order("Dadang",10, localDateTime, initiateOrderDetails(), diningTable1.getIdDiningTable(), "", false);
         Assertions.assertThrows(ForbiddenException.class, () -> {orderService.ordering(order1);});
     }
+
+    @Test
+    public void getUnpaidOrder_should_return_1_when_1_data_input(){
+        DiningTable diningTable = diningTableService.createDiningTable(table1);
+        Order order1 = new Order("Dadang",2, localDateTime, initiateOrderDetails(), diningTable.getIdDiningTable(), "nothing", false);
+        orderService.ordering(order1);
+        assertEquals(1, orderService.getUnpaidOrder().size());
+    }
+
 }

@@ -4,6 +4,7 @@ import com.enigma.entities.Menu;
 import com.enigma.entities.MenuCategory;
 import com.enigma.exceptions.BadRequestException;
 import com.enigma.exceptions.ForbiddenException;
+import com.enigma.exceptions.NotFoundException;
 import com.enigma.repositories.MenuCategoryRepository;
 import com.enigma.repositories.MenuRepository;
 import com.enigma.services.MenuCategoryService;
@@ -66,6 +67,10 @@ public class MenuServiceImplTest {
         Menu actual = menuService.getMenuById(menu.getIdMenu());
         Menu expected = menuRepository.findById(menu.getIdMenu()).get();
         assertEquals(expected, actual);
+    }
+    @Test
+    public void getMenuById_should_return_NotFoundException_when_not_found() {
+        Assertions.assertThrows(NotFoundException.class, () -> menuService.getMenuById("1dy4n9t1d4ck4d4"));
     }
 
     @Test

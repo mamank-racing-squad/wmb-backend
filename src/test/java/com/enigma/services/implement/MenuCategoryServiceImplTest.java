@@ -6,7 +6,9 @@ import com.enigma.repositories.MenuCategoryRepository;
 import com.enigma.repositories.MenuRepository;
 import com.enigma.services.MenuCategoryService;
 import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +33,9 @@ class MenuCategoryServiceImplTest {
     MenuRepository menuRepository;
     @Before
     public void cleanUp(){
+        menuRepository.deleteAll();
         menuCategoryRepository.deleteAll();
+
     }
     @Test
     void getAllMenuCategory() {
@@ -70,9 +74,9 @@ class MenuCategoryServiceImplTest {
 
     @Test
     public void deleteMenuCategoryById() {
-//        MenuCategory menuCategory = new MenuCategory("Drinks");
-//        menuCategory = menuCategoryService.createMenuCategory(menuCategory);
-//        menuCategoryService.deleteMenuCategoryById(menuCategory.getIdMenuCategory());
+        MenuCategory menuCategory = new MenuCategory("Drinks");
+        menuCategory = menuCategoryService.createMenuCategory(menuCategory);
+        menuCategoryService.deleteMenuCategoryById(menuCategory.getIdMenuCategory());
         assertEquals(0, menuCategoryRepository.findAll().size());
     }
 

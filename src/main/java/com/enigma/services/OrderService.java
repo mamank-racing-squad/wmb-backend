@@ -10,7 +10,7 @@ import java.util.List;
 public interface OrderService {
     Order ordering(Order order);
     Order getOrderById(String id);
-    Order payment(Order order, Payment payment);
     List<Order> getListOfOrder();
     List<Order> getUnpaidOrder();
+    BigDecimal getTotalIncome();
 }

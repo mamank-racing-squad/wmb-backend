@@ -64,7 +64,7 @@ public class OrderServiceImplTest {
     private List<OrderDetail> initiateOrderDetails() {
         MenuCategory menuCategory = new MenuCategory("Foods");
         MenuCategory newMenuCategory = menuCategoryService.createMenuCategory(menuCategory);
-        Menu menu1 = new Menu("Ikan Bakar", new BigDecimal(50000), true, newMenuCategory.getIdMenuCategory());
+        Menu menu1 = new Menu("Ikan Bakar", new BigDecimal(50000), newMenuCategory.getIdMenuCategory());
         menu1 = menuRepository.save(menu1);
         List<OrderDetail> orderDetails = new ArrayList<>();
         OrderDetail orderDetail = new OrderDetail(menu1.getIdMenu(),2);
@@ -74,7 +74,7 @@ public class OrderServiceImplTest {
     private List<OrderDetail> initiateOrderDetails2() {
         MenuCategory menuCategory = new MenuCategory("Drinks");
         MenuCategory newMenuCategory = menuCategoryService.createMenuCategory(menuCategory);
-        Menu menu1 = new Menu("Ice Tea", new BigDecimal(50000), true, newMenuCategory.getIdMenuCategory());
+        Menu menu1 = new Menu("Ice Tea", new BigDecimal(50000), newMenuCategory.getIdMenuCategory());
         menu1 = menuRepository.save(menu1);
         List<OrderDetail> orderDetails = new ArrayList<>();
         OrderDetail orderDetail = new OrderDetail(menu1.getIdMenu(),2);
@@ -89,7 +89,7 @@ public class OrderServiceImplTest {
     @Test
     public void getOrderById_should_returnTrue_Order_when_Found() {
         DiningTable diningTable = diningTableService.createDiningTable(table1);
-        Order order = new Order("Dadang",2, localDateTime, new BigDecimal(0), new BigDecimal(0), initiateOrderDetails(), diningTable.getIdDiningTable(), "nothing");
+        Order order = new Order("Dadang",2, localDateTime, initiateOrderDetails(), diningTable.getIdDiningTable(), "nothing", false);
         order = orderService.ordering(order);
         Order expected = orderService.getOrderById(order.getIdOrder());
         assertEquals(expected, order);
@@ -98,32 +98,11 @@ public class OrderServiceImplTest {
     @Test
     public void ordering_should_return_Order_when_Ordering() {
         DiningTable diningTable = diningTableService.createDiningTable(table1);
-        Order order1 = new Order("Dadang",2, localDateTime, new BigDecimal(0), new BigDecimal(0), initiateOrderDetails(), diningTable.getIdDiningTable(), "nothing");
+        Order order1 = new Order("Dadang",2, localDateTime, initiateOrderDetails(), diningTable.getIdDiningTable(), "nothing", false);
         order1 = orderService.ordering(order1);
         Order expected = orderRepository.findById(order1.getIdOrder()).get();
         Order actual = orderService.getOrderById(order1.getIdOrder());
         assertEquals(expected, actual);
-    }
-
-
-
-    @Test
-    public void payment_should_return_Order_when_payment() {
-        DiningTable newDiningTable = diningTableService.createDiningTable(table1);
-        Order order = new Order("Dadang",2, localDateTime, new BigDecimal(0), new BigDecimal(0), initiateOrderDetails(), newDiningTable.getIdDiningTable(), "");
-        Payment payment = new Payment(new BigDecimal(100000));
-        Order expected = orderService.ordering(order);
-        Order paidOrder = orderService.payment(order, payment);
-        assertEquals(orderService.getOrderById(expected.getIdOrder()), paidOrder);
-    }
-
-    @Test
-    public void payment_should_return_exception_when_paymentFail() {
-        DiningTable diningTable = diningTableService.createDiningTable(table1);
-        Order order = new Order("Dadang",2, localDateTime, new BigDecimal(0), new BigDecimal(0), initiateOrderDetails(), diningTable.getIdDiningTable(), "");
-        Payment payment = new Payment(new BigDecimal(100));
-        orderService.ordering(order);
-        Assertions.assertThrows(ForbiddenException.class, () -> {orderService.payment(order, payment);});
     }
 
     @Test
@@ -131,8 +110,8 @@ public class OrderServiceImplTest {
         DiningTable diningTable1 = diningTableService.createDiningTable(table1);
         DiningTable diningTable2 = diningTableService.createDiningTable(table2);
 
-        Order order1 = new Order("Dadang",2, localDateTime, new BigDecimal(0), new BigDecimal(0), initiateOrderDetails(), diningTable1.getIdDiningTable(), "");
-        Order order2 = new Order("Dudung",2, localDateTime, new BigDecimal(0), new BigDecimal(0), initiateOrderDetails2(), diningTable2.getIdDiningTable(), "");
+        Order order1 = new Order("Dadang",2, localDateTime, initiateOrderDetails(), diningTable1.getIdDiningTable(), "", false);
+        Order order2 = new Order("Dudung",2, localDateTime, initiateOrderDetails2(), diningTable2.getIdDiningTable(), "", false);
         orderService.ordering(order1);
         orderService.ordering(order2);
         assertEquals(2, orderService.getListOfOrder().size());
@@ -142,16 +121,16 @@ public class OrderServiceImplTest {
     @Test
     public void ordering_shouldFail_when_ordering_inUnavailable_DiningTable(){
         DiningTable diningTable1 = diningTableService.createDiningTable(table1);
-        Order order1 = new Order("Dadang",2, localDateTime, new BigDecimal(0), new BigDecimal(0), initiateOrderDetails(), diningTable1.getIdDiningTable(), "");
+        Order order1 = new Order("Dadang",2, localDateTime, initiateOrderDetails(), diningTable1.getIdDiningTable(), "", false);
         orderService.ordering(order1);
-        Order order2 = new Order("Ujang",2, localDateTime, new BigDecimal(0), new BigDecimal(0), initiateOrderDetails2(), diningTable1.getIdDiningTable(), "");
+        Order order2 = new Order("Ujang",2, localDateTime, initiateOrderDetails2(), diningTable1.getIdDiningTable(), "", false);
         Assertions.assertThrows(ForbiddenException.class, () -> {orderService.ordering(order2);});
     }
 
     @Test
     public void ordering_shouldFail_when_totalCostumer_areNotAccordingTo_DiningTableCapacity(){
         DiningTable diningTable1 = diningTableService.createDiningTable(table1);
-        Order order1 = new Order("Dadang",10, localDateTime, new BigDecimal(0), new BigDecimal(0), initiateOrderDetails(), diningTable1.getIdDiningTable(), "");
+        Order order1 = new Order("Dadang",10, localDateTime, initiateOrderDetails(), diningTable1.getIdDiningTable(), "", false);
         Assertions.assertThrows(ForbiddenException.class, () -> {orderService.ordering(order1);});
     }
 }

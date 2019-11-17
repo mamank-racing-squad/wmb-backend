@@ -36,7 +36,8 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public Menu getMenuById(String id) {
-        if (!(menuRepository.findById(id).isPresent())) throw new NotFoundException("Menu with id : " + id + " is not found.");
+        if (!(menuRepository.findById(id).isPresent()))
+            throw new NotFoundException("Menu with id : " + id + " is not found.");
         return menuRepository.findById(id).get();
     }
 
@@ -48,10 +49,9 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public Menu createMenu(Menu menu) {
         validatingMenuNameIsExist(menu.getMenuName());
-        if(menu.getPrice().equals(new BigDecimal(0))) throw new ForbiddenException("Wrooong Input");
+        if(menu.getPrice().equals(new BigDecimal(0))) throw new ForbiddenException("Price can not be zero");
         validatingMenuNameEmpty(menu.getMenuName());
         validatingPriceEmpty(menu.getPrice());
-        validatingAvailabilityEmpty(menu.getIsAvailable());
         validatingMenuCategoryEmpty(menu.getIdMenuCategory());
         MenuCategory menuCategory = menuCategoryService.getMenuCategoryById(menu.getIdMenuCategory());
         menu.setMenuCategory(menuCategory);
@@ -79,7 +79,6 @@ public class MenuServiceImpl implements MenuService {
         Menu menu = menuRepository.save(objectMapper.readValue(menuInput, Menu.class));
         validatingMenuNameEmpty(menu.getMenuName());
         validatingPriceEmpty(menu.getPrice());
-        validatingAvailabilityEmpty(menu.getIsAvailable());
         validatingMenuCategoryEmpty(menu.getIdMenuCategory());
         fileService.saveFile(image, menu.getIdMenu());
         return menu;
@@ -87,16 +86,17 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public Menu updateMenu(Menu menu) {
+        if(menu.getPrice().equals(new BigDecimal(0))) throw new ForbiddenException("Price can not be zero");
         validatingMenuNameEmpty(menu.getMenuName());
         validatingPriceEmpty(menu.getPrice());
-        validatingAvailabilityEmpty(menu.getIsAvailable());
         validatingMenuCategoryEmpty(menu.getIdMenuCategory());
         return menuRepository.save(menu);
     }
 
 
     private void validatingMenuNameIsExist(String value) {
-        if (menuRepository.existsByMenuNameIsLike(value)) throw new BadRequestException("Menu name with name : " + value + " already exist");
+        if (menuRepository.existsByMenuNameIsLike(value))
+            throw new BadRequestException("Menu name with name : " + value + " already exist");
     }
 
     private void validatingMenuNameEmpty(String value) {
@@ -107,9 +107,6 @@ public class MenuServiceImpl implements MenuService {
         if (value == null) throw new BadRequestException("Menu price can't be empty");
     }
 
-    private void validatingAvailabilityEmpty(Boolean value) {
-        if (value == null) throw new BadRequestException("Menu availability can't be empty");
-    }
 
     private void validatingMenuCategoryEmpty(String value) {
         if (value.isEmpty()) throw new BadRequestException("Menu Category can't be empty");

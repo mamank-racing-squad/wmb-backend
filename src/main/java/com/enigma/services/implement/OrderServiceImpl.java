@@ -31,7 +31,6 @@ public class OrderServiceImpl implements OrderService {
         if (order.getOrderDetails().isEmpty()) throw new ForbiddenException("Menu is empty, please select menu");
         if (order.getCostumerName().isEmpty()) throw new ForbiddenException("Please input PIC Name");
         if (order.getTotalCostumer().equals(0)) throw new ForbiddenException("Please input total Costumer");
-
         DiningTable diningTable = diningTableService.getDiningTableById(order.getIdDiningTable());
         order.setDiningTable(diningTable);
         diningTableService.costumerDining(order.getTotalCostumer(), diningTable);
@@ -39,6 +38,7 @@ public class OrderServiceImpl implements OrderService {
         order.setTotalPrice(totalPrice);
         LocalDateTime localDateTime = LocalDateTime.now();
         order.setCreateAt(localDateTime);
+        order.dining();
         return orderRepository.save(order);
     }
 
@@ -61,25 +61,17 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order payment(Order order, Payment payment) {
-        Order willBePaidOrder = getOrderById(order.getIdOrder());
-        DiningTable diningTable = order.getDiningTable();
-        diningTable.costumerOut();
-        willBePaidOrder.setPayment(payment.getPay());
-        if(willBePaidOrder.getPayment().compareTo(willBePaidOrder.getTotalPrice()) < 0){
-            throw new ForbiddenException("Sorry, the money you entered is not enough.");
-        }
-        willBePaidOrder.setChange(willBePaidOrder.getPayment().subtract(willBePaidOrder.getTotalPrice()));
-        return orderRepository.save(willBePaidOrder);
-    }
-
-    @Override
     public List<Order> getListOfOrder() {
-        return orderRepository.findAll();
+        return orderRepository.findAllByOrderByCreateAtDesc();
     }
 
     @Override
     public List<Order> getUnpaidOrder() {
-        return orderRepository.findAllByPaymentIsNull();
+        return orderRepository.findByIsPaidFalse();
+    }
+
+    @Override
+    public BigDecimal getTotalIncome() {
+        return orderRepository.sumTotalIncome();
     }
 }
